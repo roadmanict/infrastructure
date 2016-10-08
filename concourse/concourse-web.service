@@ -1,0 +1,19 @@
+[Unit]
+Description=Concourse Web
+After=network.target
+
+[Service]
+User=concourse
+Group=concourse
+ExecStart=/opt/concourse web \
+  --basic-auth-username geert \
+  --basic-auth-password test \
+  --session-signing-key session_signing_key \
+  --tsa-host-key host_key \
+  --tsa-authorized-keys authorized_worker_keys \
+  --external-url https://concourse.roadmanict.nl \
+  --postgres-data-source postgres://concourse:arrowned@localhost/atc
+WorkingDirectory=/home/concourse
+
+[Install]
+WantedBy=multi-user.target

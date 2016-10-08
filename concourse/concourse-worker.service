@@ -1,0 +1,14 @@
+[Unit]
+Description=Concourse Worker
+After=network.target
+
+[Service]
+ExecStart=/opt/concourse worker \
+  --work-dir /opt/concourse-worker \
+  --tsa-host localhost \
+  --tsa-public-key /home/concourse/host_key.pub \
+  --tsa-worker-private-key /home/concourse/worker_key
+WorkingDirectory=/opt/concourse-worker
+
+[Install]
+WantedBy=multi-user.target
