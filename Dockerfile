@@ -11,7 +11,11 @@ RUN apt-get update && \
 RUN apt-get install -y -t jessie-backports linux-base linux-image-4.7.0-0.bpo.1-amd64 && \
     apt-get install -y postgresql postgresql-client openssh-client
 
-RUN useradd -ms /bin/bash concourse
+# create user and database
+RUN useradd -ms /bin/bash concourse #&& \
+#    su - postgres && \
+#    createuser concourse
+#    createdb -O concourse atc
 
 USER concourse
 WORKDIR /home/concourse
@@ -22,6 +26,7 @@ RUN ssh-keygen -t rsa -f host_key -N '' && \
     cp worker_key.pub authorized_worker_keys
 
 USER root
+
 COPY concourse/concourse-web.service /etc/systemd/system/concourse-web.service
 COPY concourse/concourse-worker.service /etc/systemd/system/concourse-worker.service
 RUN systemctl daemon-reload
