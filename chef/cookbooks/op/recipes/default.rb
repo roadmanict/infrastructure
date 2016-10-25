@@ -54,6 +54,8 @@ end
 # Monit
 package 'monit'
 
+cookbook_file '/etc/monit/monitrc'
+
 service 'monit' do
   action [:enable, :restart]
 end
