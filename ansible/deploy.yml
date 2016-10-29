@@ -1,0 +1,41 @@
+---
+- hosts: vps64810.roadmanict.nl
+  remote_user: deploy
+  vars:
+    required_packages_backports:
+     - certbot
+  tasks:
+   - name: ufw allow http
+     ufw: rule=allow port=http proto=tcp
+     become: yes
+     become_method: sudo
+     notify: Restart ufw
+   - name: ufw allow https
+     ufw: rule=allow port=https proto=tcp
+     become: yes
+     become_method: sudo
+     notify: Restart ufw
+
+   - name: configure jessie backports
+     apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main' state=present
+     become: yes
+     become_method: sudo
+   - name: Update APT package cache
+     apt: update_cache=yes cache_valid_time=3600
+     become: yes
+     become_method: sudo
+   - name: install certbot
+     apt: name=certbot state=present default_release=jessie-backports
+     become: yes
+     become_method: sudo
+   - name: create certbot certificates
+     shell: 'certbot certonly -n --agree-tos --keep --standalone -d monit.roadmanict.nl --email geert@gweggemans.nl'
+     become: yes
+     become_method: sudo
+
+
+  handlers:
+   - name: Restart ufw
+     service: name=ufw state=restarted
+     become: yes
+     become_method: sudo
