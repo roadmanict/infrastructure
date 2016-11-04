@@ -30,6 +30,10 @@
      service: name=nginx state=started enabled=yes
      become: yes
      become_method: sudo
+   - name: Enable and start monit
+     service: name=monit state=restarted enabled=yes
+     become: yes
+     become_method: sudo
    - name: ufw allow http
      ufw: rule=allow port=http proto=tcp
      become: yes
@@ -57,8 +61,18 @@
       - { regexp: '#?\s*allow [a-z]*:[a-z]*', line: '    allow geert:arrowned' }
      become: yes
      become_method: sudo
-   - name: Enable and start monit
-     service: name=monit state=restarted enabled=yes
+   - name: Add monitrc.d files
+     copy: src={{item.src}} dest={{item.dest}}
+     become: yes
+     become_method: sudo
+     with_items:
+      - { src: 'src/monitrc.d/cron', dest: '/etc/monit/conf.d/cron'}
+      - { src: 'src/monitrc.d/nginx', dest: '/etc/monit/conf.d/nginx'}
+      - { src: 'src/monitrc.d/openssh-server', dest: '/etc/monit/conf.d/openssh-server'}
+      - { src: 'src/monitrc.d/postfix', dest: '/etc/monit/conf.d/postfix'}
+      - { src: 'src/monitrc.d/rsyslog', dest: '/etc/monit/conf.d/rsyslog'}
+   - name: Reload monit
+     service: name=monit state=reloaded
      become: yes
      become_method: sudo
    - name: add monit to nginx
