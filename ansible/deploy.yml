@@ -66,6 +66,8 @@
      become: yes
      become_method: sudo
      with_items:
+      - { src: 'src/monitrc.d/acpid', dest: '/etc/monit/conf.d/acpid'}
+      - { src: 'src/monitrc.d/at', dest: '/etc/monit/conf.d/at'}
       - { src: 'src/monitrc.d/cron', dest: '/etc/monit/conf.d/cron'}
       - { src: 'src/monitrc.d/nginx', dest: '/etc/monit/conf.d/nginx'}
       - { src: 'src/monitrc.d/openssh-server', dest: '/etc/monit/conf.d/openssh-server'}
