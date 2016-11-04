@@ -13,6 +13,7 @@
      - fail2ban
      - unattended-upgrades
      - logwatch
+     - postfix
   tasks:
    - name: Add deploy user
      user: name={{ deploy_name }} password="{{ deploy_password }}" shell=/bin/bash

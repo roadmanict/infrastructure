@@ -2,9 +2,34 @@
 - hosts: vps64810.roadmanict.nl
   remote_user: deploy
   vars:
+    required_packages:
+     - monit
+     - nginx
     required_packages_backports:
      - certbot
   tasks:
+   - name: configure jessie backports
+     apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main' state=present
+     become: yes
+     become_method: sudo
+   - name: Update APT package cache
+     apt: update_cache=yes cache_valid_time=3600
+     become: yes
+     become_method: sudo
+   - name: Install required packages
+     apt: state=installed pkg={{ item }}
+     with_items: '{{required_packages}}'
+     become: yes
+     become_method: sudo
+   - name: install certbot
+     apt: name=certbot state=present default_release=jessie-backports
+     become: yes
+     become_method: sudo
+
+   - name: Enable and start nginx
+     service: name=nginx state=started enabled=yes
+     become: yes
+     become_method: sudo
    - name: ufw allow http
      ufw: rule=allow port=http proto=tcp
      become: yes
@@ -16,26 +41,38 @@
      become_method: sudo
      notify: Restart ufw
 
-   - name: configure jessie backports
-     apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main' state=present
-     become: yes
-     become_method: sudo
-   - name: Update APT package cache
-     apt: update_cache=yes cache_valid_time=3600
-     become: yes
-     become_method: sudo
-   - name: install certbot
-     apt: name=certbot state=present default_release=jessie-backports
-     become: yes
-     become_method: sudo
    - name: create certbot certificates
      shell: 'certbot certonly -n --agree-tos --keep --standalone -d monit.roadmanict.nl --email geert@gweggemans.nl'
      become: yes
      become_method: sudo
-
+  
+   - name: Add deploy user to sudoers
+     lineinfile: dest=/etc/monit/monitrc
+                 regexp="{{item.regexp}}"
+                 line="{{item.line}}"
+                 state=present
+     with_items:
+      - { regexp: '#?\s*set httpd port 2812 and', line: 'set httpd port 2812 and' }
+      - { regexp: '#?\s*use address localhost', line: '    use address localhost' }
+      - { regexp: '#?\s*allow [a-z]*:[a-z]*', line: '    allow geert:arrowned' }
+     become: yes
+     become_method: sudo
+   - name: Enable and start monit
+     service: name=monit state=restarted enabled=yes
+     become: yes
+     become_method: sudo
+   - name: add monit to nginx
+     copy: src=src/nginx/monit.conf dest=/etc/nginx/sites-enabled/monit.conf
+     become: yes
+     become_method: sudo
+     notify: Reload nginx
 
   handlers:
    - name: Restart ufw
      service: name=ufw state=restarted
+     become: yes
+     become_method: sudo
+   - name: Reload nginx
+     service: name=nginx state=reloaded
      become: yes
      become_method: sudo
