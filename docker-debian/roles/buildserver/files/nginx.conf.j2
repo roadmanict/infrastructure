@@ -1,0 +1,17 @@
+upstream concourse_container {
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen 80;
+    server_name {{ domain }};
+    client_max_body_size 1G;
+
+    error_log /var/log/nginx/concourse_error.log;
+    access_log /var/log/nginx/concourse_access.log;
+
+    location / {
+        proxy_buffering off;
+        proxy_pass http://concourse_container;
+    }
+}

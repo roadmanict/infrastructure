@@ -1,0 +1,35 @@
+---
+- name: Deploy on OpenStack
+  hosts: openstack
+  tasks:
+    - name: detach volume
+      os_server_volume:
+        state: absent
+        server: "{{ env_name }}_server"
+        volume: database_volume
+    - name: Detach floating ip
+      os_floating_ip:
+        state: absent
+        floating_ip_address: "{{ floating_ip }}"
+        server: "{{ env_name }}_server"
+        wait: yes
+    - name: Destroy instance
+      os_server:
+        state: absent
+        name: "{{ env_name }}_server"
+        wait: yes
+    - name: Destroy router
+      os_router:
+        state: absent
+        name: "{{ env_name }}_router"
+        wait: yes
+#    - name: Destroy subnet
+#      os_subnet:
+#        state: absent
+#        name: "{{ env_name }}_subnet"
+#        wait: yes
+#    - name: Destroy network
+#      os_network:
+#        state: absent
+#        name: "{{ env_name }}_network"
+#        wait: yes

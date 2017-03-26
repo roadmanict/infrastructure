@@ -1,0 +1,6 @@
+---
+- hosts: instances
+  roles:
+    - common
+    - database
+    - buildserver

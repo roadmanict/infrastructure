@@ -1,0 +1,60 @@
+---
+- hosts: 192.168.33.10
+  remote_user: vagrant
+  become: true
+  become_method: sudo
+  vars:
+    logwatch_email: geert@gweggemans.nl
+    deploy_public_keys:
+      - ~/.ssh/id_rsa.pub
+    required_packages:
+      - fail2ban
+      - unattended-upgrades
+      - logwatch
+      - postfix
+      - docker
+      - postgresql
+      - postgresql-client
+      - python-psycopg2
+
+  tasks:
+    - name: "FIX: Debian doesn't come with certain modules, required by ansible"
+      raw: apt-get install python-minimal aptitude -y
+    - name: Update APT package cache
+      apt: update_cache=yes cache_valid_time=3600
+    - name: Upgrade APT to the latest packages
+      apt: upgrade=safe
+    - name: Install required packages
+      apt: state=installed pkg={{ item }}
+      with_items: '{{required_packages}}'
+
+    - name: Adjust APT update intervals
+      copy: src=apt_periodic dest=/etc/apt/apt.conf.d/10periodic
+
+    - name: Set up Postfix to relay mail
+      debconf: name=postfix
+              question='{{ item.question }}'
+              value='{{ item.value }}'
+              vtype='{{ item.vtype }}'
+      with_items:
+        - { question: 'postfix/mailname', value: '{{ ansible_fqdn }}', vtype: 'string' }
+        - { question: 'postfix/main_mailer_type', value: 'Internet Site', vtype: 'string' }
+
+    - name: Email log summary daily
+      lineinfile: dest=/etc/cron.daily/00logwatch
+                  regexp="^/usr/sbin/logwatch"
+                  line="/usr/sbin/logwatch --output mail --mailto {{ logwatch_email }} --detail high"
+                  state=present create=yes
+    - name: create postgres db
+      postgresql_db: name=concourse
+      become: true
+      become_user: postgres
+      become_method: su
+    - name: create postgres user
+      postgresql_user: name=concourse password=ceec4eif7ya priv="CONNECT/concourse:ALL"
+      become: true
+      become_user: postgres
+      become_method: su
+  handlers:
+    - name: Restart ssh
+      service: name=ssh state=restarted

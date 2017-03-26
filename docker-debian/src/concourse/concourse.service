@@ -1,0 +1,20 @@
+[Unit]
+Description=Mysql
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill mysql
+ExecStartPre=-/usr/bin/docker rm mysql
+ExecStartPre=/usr/bin/docker pull mysql
+ExecStart=/usr/bin/docker run --rm --name concourse \
+  -e MYSQL_ROOT_PASSWORD=asdf \
+  -e MYSQL_DATABASE=citstat \
+  -e MYSQL_USER=citstat \
+  -e MYSQL_PASSWORD=asdf \
+  -v /mnt/mysql:/var/lib/mysql \
+  mysql
+
+[Install]
+WantedBy=multi-user.target

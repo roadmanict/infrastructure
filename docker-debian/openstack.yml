@@ -1,0 +1,70 @@
+- name: Deploy on OpenStack
+  hosts: openstack
+  tasks:
+    - name: Add Ansible keypair
+      os_keypair:
+        state: present
+        name: ansible
+        public_key_file: /Users/geertweggemans/.ssh/ansible.pub
+    - name: Configure network
+      os_network:
+        state: present
+        availability_zone: NL1
+        name: "{{ env_name }}_network"
+        external: False
+        shared: False
+        wait: True
+    - name: Configure subnet
+      os_subnet:
+        state: present
+        availability_zone: NL1
+        network_name: "{{ env_name }}_network"
+        name: "{{ env_name }}_subnet"
+        cidr: 10.166.28.0/24
+        gateway_ip: 10.166.28.1
+        enable_dhcp: yes
+        dns_nameservers:
+        - 194.60.207.52
+        - 194.60.207.53
+    - name: Configure router
+      os_router:
+        state: present
+        availability_zone: NL1
+        name: "{{ env_name }}_router"
+        enable_snat: yes
+        network: net-public
+        interfaces:
+          - "{{ env_name }}_subnet"
+        wait: true
+    - name: Deploy an instance
+      os_server:
+        state: present
+        availability_zone: NL1
+        name: "{{ env_name }}_server"
+        image: cda1773d-064c-4750-9c41-081467fc6575
+        key_name: ansible
+        flavor: Standard 1
+        security_groups:
+          - built-in-allow-icmp
+          - built-in-allow-web
+          - built-in-provider-access
+          - built-in-remote-access
+        network: "{{ env_name }}_network"
+        floating_ips:
+          - "{{ floating_ip }}"
+        meta:
+          hostname: "{{ host_name }}"
+        wait: yes
+    - name: configure a 8gb database volume
+      os_volume:
+        state: present
+        availability_zone: NL1
+        size: 8
+        display_name: database_volume
+        wait: yes
+    - name: attach volume to host
+      os_server_volume:
+        state: present
+        server: "{{ env_name }}_server"
+        volume: database_volume
+        device: /dev/sdb

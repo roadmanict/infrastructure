@@ -1,0 +1,7 @@
+---
+dbname: concourse
+dbuser: concourse
+dbpassword: pleasechangeme
+basic_auth_username: concourse
+basic_auth_password: pleasechangemeagain
+domain: "concourse.{{ inventory_hostname }}"

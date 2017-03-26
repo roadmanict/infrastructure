@@ -1,0 +1,6 @@
+---
+- hosts: instances
+  roles:
+    - { name: common, tags: common }
+    - { name: database, tags: database }
+    - { name: buildserver, tags: buildserver }

@@ -1,0 +1,21 @@
+[Unit]
+Description=Concourse Worker
+After=docker.service
+Requires=docker.service
+After=concourse-web.service
+Requires=concourse-web.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill concourse-worker
+ExecStartPre=-/usr/bin/docker rm concourse-worker
+ExecStartPre=/usr/bin/docker pull concourse/concourse
+ExecStart=/usr/bin/docker run --rm --name concourse-worker \
+  --link concourse-web:concourse-web \
+  -v /usr/lib/concourse/keys/worker:/concourse-keys \
+  -e CONCOURSE_TSA_HOST=concourse-web \
+  --privileged \
+  concourse/concourse worker
+
+[Install]
+WantedBy=multi-user.target

@@ -8,10 +8,6 @@
     required_packages_backports:
      - certbot
   tasks:
-   - name: configure jessie backports
-     apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main' state=present
-     become: yes
-     become_method: sudo
    - name: Update APT package cache
      apt: update_cache=yes cache_valid_time=3600
      become: yes
