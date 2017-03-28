@@ -14,7 +14,7 @@ ExecStart=/usr/bin/docker run --rm --name concourse-web \
   -e CONCOURSE_BASIC_AUTH_USERNAME={{ basic_auth_username }} \
   -e CONCOURSE_BASIC_AUTH_PASSWORD={{ basic_auth_password }} \
   -e CONCOURSE_EXTERNAL_URL={{ domain }} \
-  -e CONCOURSE_POSTGRES_DATA_SOURCE=postgres://{{ dbuser }}:{{ dbpassword }}@localhost:5432/{{ dbname }}?sslmode=disable \
+  -e CONCOURSE_POSTGRES_DATA_SOURCE=postgres://{{ dbuser }}:{{ dbpassword }}@172.17.0.1:5432/{{ dbname }}?sslmode=disable \
   concourse/concourse web
 
 [Install]
