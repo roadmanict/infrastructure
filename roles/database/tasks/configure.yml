@@ -5,10 +5,14 @@
     regexp: '^listen_addresses'
     insertafter: '^#listen_addresses '
     line: "listen_addresses 'localhost, 172.17.0.1'"
+- name: Copy postgresql.conf to postgres data directory
+  copy: remote_src=True src=/etc/postgresql/9.5/main/postgresql.conf dest=/var/lib/postgresql/9.5/main/postgresql.conf
 - name: ensure to listen to Docker ip address ranges
   lineinfile:
     dest: /etc/postgresql/9.5/main/pg_hba.conf
     regexp: '^host all all 172.17.0.0/16 md5'
     line: "host all all 172.17.0.0/16 md5"
+- name: Copy postgresql.conf to postgres data directory
+  copy: remote_src=True src=/etc/postgresql/9.5/main/pg_hba.conf dest=/var/lib/postgresql/9.5/main/pg_hba.conf
 - name: restart postgresql
   service: name=postgresql state=restarted
