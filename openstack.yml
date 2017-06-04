@@ -41,7 +41,7 @@
         state: present
         availability_zone: NL1
         name: "{{ env_name }}_server"
-        image: cda1773d-064c-4750-9c41-081467fc6575
+        image: CloudVPS Ubuntu 16.04
         key_name: ansible
         flavor: Standard 1
         security_groups:
