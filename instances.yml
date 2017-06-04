@@ -7,3 +7,7 @@
   roles:
     - { name: common, tags: common }
     - { name: concourse-web, tags: concourse-web }
+- hosts: vogelsangh-beta
+  roles:
+    - { name: common, tags: common }
+    - { name: vogelsangh, tags: vogelsangh-beta, vogelsangh_env: "beta" }

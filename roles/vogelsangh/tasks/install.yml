@@ -1,0 +1,19 @@
+---
+- name: checkout repository
+  git:
+    repo: https://github.com/roadmanict/vogelsangh.git
+    dest: "/home/vogelsangh_{{ vogelsangh_env }}/django"
+- name: Install project dependencies
+  pip:
+    requirements: "/home/vogelsangh_{{ vogelsangh_env }}/django/prod_requirements.txt"
+    virtualenv: "{{ vogelsangh_venv_dir }}"
+    virtualenv_command: "pyvenv-3.5"
+- name: Write db password to file
+  copy: content="{{ vogelsangh_db_password }}" dest="/home/vogelsangh_{{ vogelsangh_env }}/django/db_password"
+- name: Write secret to file
+  copy: content="{{ vogelsangh_secret_key }}" dest="/home/vogelsangh_{{ vogelsangh_env }}/django/secret_key"
+- name: Migrate database
+  django_manage:
+    command: migrate
+    app_path: "/home/vogelsangh_{{ vogelsangh_env }}/django"
+    virtualenv: "{{ vogelsangh_venv_dir }}"

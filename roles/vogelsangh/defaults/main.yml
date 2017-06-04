@@ -1,0 +1,6 @@
+---
+vogelsangh_db_name: "{{ vogelsangh_env }}_vogelsangh"
+vogelsangh_db_user: "{{ vogelsangh_env }}_vogelsangh"
+vogelsangh_db_password: "{{ vault_vogelsangh_db_password }}"
+vogelsangh_secret_key: "{{ vault_vogelsangh_secret_key }}"
+vogelsangh_venv_dir: "/home/vogelsangh_{{ vogelsangh_env }}/venv"
