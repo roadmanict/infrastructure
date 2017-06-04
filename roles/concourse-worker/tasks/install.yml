@@ -1,0 +1,22 @@
+---
+- name: Creates concourse ssh-key worker directory
+  file: path=/usr/lib/concourse/keys/worker state=directory
+- name: Generate worker_key SSH key
+  copy: src=worker_key dest=/usr/lib/concourse/keys/worker
+- name: Copy files worker key to authorized worker keys
+  copy: remote_src=True src=/usr/lib/concourse/keys/worker/worker_key.pub dest=/usr/lib/concourse/keys/web/authorized_worker_keys
+  synchronize: src=/usr/lib/concourse/keys/worker/worker_key.pub dest=/copy/to_serverB
+    delegate_to: concourse-web
+- name: Copy files tsa_host_key to worker
+  copy: remote_src=True src=/usr/lib/concourse/keys/web/tsa_host_key.pub dest=/usr/lib/concourse/keys/worker
+
+- name: Copy systemd concourse-worker template
+  template:
+    src: files/concourse-worker.service.j2
+    dest: /etc/systemd/system/concourse-worker.service
+- name: enable concourse-worker
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: started
+    name: concourse-worker

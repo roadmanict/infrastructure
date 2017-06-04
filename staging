@@ -1,0 +1,14 @@
+[openstack]
+localhost ansible_connection=local ansible_python_interpreter=/usr/local/bin/python env_name=staging host_name=staging.roadmanict.nl floating_ip=213.187.241.38
+
+[instances]
+staging.roadmanict.nl
+
+[loadbalancer]
+staging.roadmanict.nl
+
+[database]
+staging.roadmanict.nl
+
+[concourse-web]
+staging.roadmanict.nl

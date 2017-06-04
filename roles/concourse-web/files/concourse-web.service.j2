@@ -1,0 +1,21 @@
+[Unit]
+Description=Concourse Web
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill concourse-web
+ExecStartPre=-/usr/bin/docker rm concourse-web
+ExecStartPre=/usr/bin/docker pull concourse/concourse
+ExecStart=/usr/bin/docker run --rm --name concourse-web \
+  -p 8080:8080 \
+  -v /usr/lib/concourse/keys/web:/concourse-keys \
+  -e CONCOURSE_BASIC_AUTH_USERNAME={{ basic_auth_username }} \
+  -e CONCOURSE_BASIC_AUTH_PASSWORD="{{ basic_auth_password }}" \
+  -e CONCOURSE_EXTERNAL_URL={{ domain }} \
+  -e CONCOURSE_POSTGRES_DATA_SOURCE=postgres://{{ concourse_db_user }}:"{{ concourse_db_password }}"@172.17.0.1:5432/{{ concourse_db_name }}?sslmode=disable \
+  concourse/concourse web
+
+[Install]
+WantedBy=multi-user.target

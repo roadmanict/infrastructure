@@ -1,0 +1,7 @@
+---
+concourse_db_name: concourse
+concourse_db_user: concourse
+concourse_db_password: "{{ vault_concourse_db_password }}"
+basic_auth_username: concourse
+basic_auth_password: "{{ vault_basic_auth_password }}"
+domain: "concourse.{{ inventory_hostname }}"

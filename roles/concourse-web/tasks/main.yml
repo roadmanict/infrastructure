@@ -1,0 +1,5 @@
+---
+- include: database.yml
+  become: yes
+  become_user: postgres
+- include: install.yml

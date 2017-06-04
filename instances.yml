@@ -1,6 +1,9 @@
 ---
-- hosts: instances
+- hosts: database
   roles:
-    - common
-    - database
-    - buildserver
+    - { name: common, tags: common }
+    - { name: database, tags: database }
+- hosts: concourse-web
+  roles:
+    - { name: common, tags: common }
+    - { name: concourse-web, tags: concourse-web }
