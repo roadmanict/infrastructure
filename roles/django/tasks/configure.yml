@@ -1,0 +1,60 @@
+---
+- name: ensure apt cache is up to date
+  apt: update_cache=yes cache_valid_time=3600
+- name: install django dependencies
+  apt: name={{item}} state=present
+  with_items:
+  - python3
+  - python3-pip
+  - python3-venv
+  - software-properties-common
+- name: Add apt repository
+  apt_repository:
+    repo: ppa:certbot/certbot
+- name: ensure apt cache is up to date
+  apt: update_cache=yes cache_valid_time=3600
+- name: install certbot
+  apt: name={{item}} state=present
+  with_items:
+  - certbot
+- name: Copy nginx config
+  template:
+    src: files/nginx-certbot.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ project_name }}-{{ project_env }}-certbot.conf"
+- name: Restart nginx
+  service: name=nginx state=reloaded
+- name: Create certbot directory
+  file:
+    path: "/var/www/letsencrypt-challenge-{{ project_name }}-{{ project_env }}"
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
+- name: create certbot certificates
+  shell: 'certbot certonly --webroot -w /var/www/letsencrypt-challenge-{{ project_name }}-{{ project_env }} --agree-tos --keep -d {{ project_domain }} --email geert@roadmanict.nl'
+- name: create user
+  user:
+    name: "{{ django_user }}"
+    state: present
+- name: Create static directory
+  file:
+    path: "{{ django_static_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ django_user }}"
+    group: www-data
+- name: Create media directory
+  file:
+    path: "{{ django_media_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ django_user }}"
+    group: www-data
+- name: Copy gunicorn config
+  template:
+    src: files/django-gunicorn.service.j2
+    dest: "/etc/systemd/system/{{ project_name }}-{{ project_env }}-gunicorn.service"
+- name: Copy nginx config
+  template:
+    src: files/nginx.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ project_name }}-{{ project_env }}.conf"

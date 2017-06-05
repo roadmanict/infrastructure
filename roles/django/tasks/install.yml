@@ -1,0 +1,26 @@
+---
+- name: checkout repository
+  git:
+    repo: "{{ project_repository }}"
+    dest: "{{ django_project_root }}"
+- name: Install project dependencies
+  pip:
+    requirements: "{{ django_project_root }}/prod_requirements.txt"
+    virtualenv: "{{ django_venv_dir }}"
+    virtualenv_command: "pyvenv-3.5"
+- name: Copy local settings
+  template:
+    src: files/local_settings.py.j2
+    dest: "{{ django_project_root }}/{{ project_name }}/settings/local.py"
+- name: Copy gunicorn configuration
+  template:
+    src: files/gunicorn.conf.py.j2
+    dest: "{{ django_project_root }}/gunicorn.conf.py"
+- name: Run django manage commands
+  django_manage:
+    command: "{{ item }}"
+    app_path: "{{ django_project_root }}"
+    virtualenv: "{{ django_venv_dir }}"
+  with_items:
+    - migrate
+    - collectstatic

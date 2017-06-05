@@ -1,0 +1,11 @@
+---
+- include: configure.yml
+- include: database.yml
+  become: yes
+  become_user: postgres
+- include: install.yml
+  become: yes
+  become_user: "{{ django_user }}"
+  environment:
+    DJANGO_SETTINGS_MODULE: vogelsangh.settings.production
+- include: enable.yml

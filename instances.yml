@@ -10,4 +10,5 @@
 - hosts: vogelsangh-beta
   roles:
     - { name: common, tags: common }
-    - { name: vogelsangh, tags: vogelsangh-beta, vogelsangh_env: "beta" }
+    - { name: load-balancer, tags: load-balancer }
+    - { name: django, tags: vogelsangh-beta }

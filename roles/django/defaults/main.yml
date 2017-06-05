@@ -1,0 +1,14 @@
+---
+django_user: "vogelsangh_{{ project_env }}"
+django_db_name: "{{ project_env }}_{{ project_name }}"
+django_db_user: "{{ project_env }}_{{ project_name }}"
+django_db_password: "{{ vault_django_db_password }}"
+django_secret_key: "{{ vault_django_secret_key }}"
+django_project_root: "/home/{{ project_name }}_{{ project_env }}/django"
+django_venv_dir: "/home/{{ project_name }}_{{ project_env }}/venv"
+django_domains:
+ - "{{ project_domain }}"
+django_static_dir: "/var/www/{{ project_name }}_{{ project_env }}/static"
+django_static_url: "https://{{ project_domain }}/static/"
+django_media_dir: "/var/www/{{ project_name }}_{{ project_env }}/media"
+django_media_url: "https://{{ project_domain }}/media/"

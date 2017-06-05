@@ -1,0 +1,10 @@
+---
+- name: Fix django static permissions
+  file: path="{{ django_static_dir }}" owner="{{ django_user }}" group=www-data mode=0775 state=directory recurse=yes
+- name: Enable and start gunicorn
+  service:
+    name: "{{ project_name }}-{{ project_env }}-gunicorn"
+    state: restarted
+    enabled: yes
+- name: Restart nginx
+  service: name=nginx state=reloaded
