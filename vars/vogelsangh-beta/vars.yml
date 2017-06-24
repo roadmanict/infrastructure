@@ -1,0 +1,6 @@
+---
+project_domain: beta.staging.vogelsangh-dwingeloo.nl
+project_name: "vogelsangh_beta"
+django_name: "vogelsangh"
+project_repository: https://github.com/roadmanict/vogelsangh.git
+project_gunicorn_port: 8000

@@ -3,12 +3,23 @@
   roles:
     - { name: common, tags: common }
     - { name: database, tags: database }
-- hosts: concourse-web
-  roles:
-    - { name: common, tags: common }
-    - { name: concourse-web, tags: concourse-web }
+#- hosts: concourse-web
+#  roles:
+#    - { name: common, tags: common }
+#    - { name: concourse-web, tags: concourse-web }
 - hosts: vogelsangh-beta
+  vars_files:
+    - vars/vogelsangh-beta/vars.yml
+    - vars/vogelsangh-beta/vault.yml
   roles:
     - { name: common, tags: common }
     - { name: load-balancer, tags: load-balancer }
     - { name: django, tags: vogelsangh-beta }
+- hosts: loo
+  vars_files:
+    - vars/loo/vars.yml
+    - vars/loo/vault.yml
+  roles:
+    - { name: common, tags: common }
+    - { name: load-balancer, tags: load-balancer }
+    - { name: django, tags: loo }

@@ -1,8 +1,5 @@
 [openstack]
-localhost ansible_connection=local ansible_python_interpreter=/usr/local/bin/python env_name=staging host_name=staging.roadmanict.nl floating_ip=213.187.241.38
-
-[instances]
-staging.roadmanict.nl
+localhost ansible_connection=local ansible_python_interpreter=/usr/local/bin/python infra_env=staging host_name=staging.roadmanict.nl floating_ip=213.187.241.38
 
 [loadbalancer]
 staging.roadmanict.nl
@@ -14,4 +11,7 @@ staging.roadmanict.nl
 staging.roadmanict.nl
 
 [vogelsangh-beta]
-staging.roadmanict.nl project_domain=beta.staging.vogelsangh-dwingeloo.nl
+staging.roadmanict.nl
+
+[loo]
+staging.roadmanict.nl

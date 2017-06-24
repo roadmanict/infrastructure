@@ -1,11 +1,11 @@
 server {
   listen              80;
   listen              [::]:80;
-  server_name         {{ project_domain }};
+  server_name         {{ domains|join(' ') }};
 
   location ^~ /.well-known/acme-challenge/ {
     default_type "text/plain";
-    root       /var/www/letsencrypt-challenge-{{ project_name }}-{{ project_env }};
+    root       {{ certbot_root }}/{{ name }};
   }
 
   location = /.well-known/acme-challenge/ {

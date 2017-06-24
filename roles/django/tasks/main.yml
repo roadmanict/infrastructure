@@ -3,9 +3,13 @@
 - include: database.yml
   become: yes
   become_user: postgres
-- include: install.yml
+- include: deploy.yml
   become: yes
   become_user: "{{ django_user }}"
   environment:
-    DJANGO_SETTINGS_MODULE: vogelsangh.settings.production
+    DJANGO_SETTINGS_MODULE: "{{ django_name }}.settings.production"
+  tags:
+   - deploy
 - include: enable.yml
+  tags:
+   - deploy

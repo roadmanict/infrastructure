@@ -11,7 +11,7 @@
 - name: Copy local settings
   template:
     src: files/local_settings.py.j2
-    dest: "{{ django_project_root }}/{{ project_name }}/settings/local.py"
+    dest: "{{ django_project_root }}/{{ django_name }}/settings/local.py"
 - name: Copy gunicorn configuration
   template:
     src: files/gunicorn.conf.py.j2

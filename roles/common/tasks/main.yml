@@ -1,8 +1,19 @@
 ---
-- include: upgrade.yml
 - name: ensure apt cache is up to date
   apt: update_cache=yes cache_valid_time=3600
 - name: ensure packages are installed
   apt: name={{item}} state=present
   with_items:
   - git
+  - postfix
+  - python-minimal
+  - aptitude
+- include: upgrade.yml
+- name: Set up Postfix to relay mail
+  debconf: name=postfix
+           question='{{ item.question }}'
+           value='{{ item.value }}'
+           vtype='{{ item.vtype }}'
+  with_items:
+    - { question: 'postfix/mailname', value: '{{ ansible_fqdn }}', vtype: 'string' }
+    - { question: 'postfix/main_mailer_type', value: 'Internet Site', vtype: 'string' }
