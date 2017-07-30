@@ -1,0 +1,11 @@
+---
+- include: install.yml
+  become: yes
+  tags:
+   - certbot
+  when: env != "vagrant"
+- include: vagrant.yml
+  become: yes
+  tags:
+   - certbot
+  when: env == "vagrant"

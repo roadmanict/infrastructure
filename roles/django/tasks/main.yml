@@ -1,8 +1,11 @@
 ---
 - include: configure.yml
+  become: yes
+
 - include: database.yml
   become: yes
   become_user: postgres
+
 - include: deploy.yml
   become: yes
   become_user: "{{ django_user }}"
@@ -10,6 +13,8 @@
     DJANGO_SETTINGS_MODULE: "{{ django_name }}.settings.production"
   tags:
    - deploy
+
 - include: enable.yml
+  become: yes
   tags:
    - deploy

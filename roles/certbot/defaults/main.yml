@@ -1,0 +1,2 @@
+---
+certbot_root: /var/www/letsencrypt

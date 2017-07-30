@@ -1,6 +1,7 @@
 ---
 - name: ensure apt cache is up to date
   apt: update_cache=yes cache_valid_time=3600
+
 - name: install python packages
   apt: name={{item}} state=present
   with_items:
@@ -15,14 +16,17 @@
   - ruby-full
   - rubygems
   - software-properties-common
+
 - name: Install sass
   gem:
     name: sass
     state: present
+
 - name: create user
   user:
     name: "{{ django_user }}"
     state: present
+
 - name: Create static directory
   file:
     path: "{{ django_static_dir }}"
@@ -30,6 +34,7 @@
     mode: 0755
     owner: "{{ django_user }}"
     group: www-data
+
 - name: Create media directory
   file:
     path: "{{ django_media_dir }}"
@@ -37,10 +42,12 @@
     mode: 0755
     owner: "{{ django_user }}"
     group: www-data
+
 - name: Copy gunicorn config
   template:
     src: files/django.service.j2
     dest: "/etc/systemd/system/{{ project_name }}.service"
+
 - name: Copy nginx config
   template:
     src: files/nginx.conf.j2

@@ -1,5 +1,5 @@
 ---
-project_domain: beta.staging.vogelsangh-dwingeloo.nl
+project_domain: beta.vogelsangh-dwingeloo.local
 project_name: "vogelsangh_beta"
 django_name: "vogelsangh"
 project_repository: https://github.com/roadmanict/vogelsangh.git

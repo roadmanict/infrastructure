@@ -1,7 +1,5 @@
 ---
-#- name: Update sources.list to stretch
-#  shell: sed -i 's/jessie/stretch/g' /etc/apt/sources.list
 - name: ensure apt cache is up to date
   apt: update_cache=yes cache_valid_time=3600
 - name: upgrade all packages to latest version
-  apt: upgrade=yes
+  apt: upgrade=safe
