@@ -1,5 +1,5 @@
 ---
-project_domain: loo.staging.gweggemans.nl
+project_domain: loo.gweggemans.local
 project_name: "loo"
 django_name: "startup"
 project_repository: https://github.com/roadmanict/startupweekenddjango.git

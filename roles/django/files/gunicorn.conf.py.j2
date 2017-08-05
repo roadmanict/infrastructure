@@ -5,3 +5,5 @@ bind = "127.0.0.1:{{ project_gunicorn_port }}"
 workers = multiprocessing.cpu_count() * 2 + 1
 loglevel = "error"
 proc_name = "{{ project_name }}"
+errorlog = "{{ django_project_root }}/error.log"
+accesslog = "{{ django_project_root }}/access.log"

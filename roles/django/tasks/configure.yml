@@ -48,6 +48,11 @@
     src: files/django.service.j2
     dest: "/etc/systemd/system/{{ project_name }}.service"
 
+- name: Reload service files
+  systemd:
+    name: loo
+    daemon_reload: yes
+
 - name: Copy nginx config
   template:
     src: files/nginx.conf.j2

@@ -20,6 +20,15 @@
     src: files/gunicorn.conf.py.j2
     dest: "{{ django_project_root }}/gunicorn.conf.py"
 
+- name: Make sure log files exist
+  copy:
+    content: ""
+    dest: "{{ django_project_root }}/{{ item }}.log"
+    force: no
+  with_items:
+    - error
+    - access
+
 - name: Run django manage commands
   django_manage:
     command: "{{ item }}"
