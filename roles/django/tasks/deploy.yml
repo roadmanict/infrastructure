@@ -1,8 +1,19 @@
 ---
+- name: Ensure .ssh directory exists
+  file: path=~/.ssh state=directory mode=0700
+
+- name: add deploy key to user
+  copy:
+    src: "environments/{{ env }}/files/deploy_key"
+    dest: "~/.ssh/deploy_key"
+    mode: 0600
+
 - name: checkout repository
   git:
     repo: "{{ project_repository }}"
     dest: "{{ django_project_root }}"
+    key_file: ~/.ssh/deploy_key
+    accept_hostkey: yes
 
 - name: Install project dependencies
   pip:

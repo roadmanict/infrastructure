@@ -1,0 +1,6 @@
+---
+project_domain: loo.gweggemans.nl
+project_name: "loo"
+django_name: "startup"
+project_repository: https://github.com/roadmanict/startupweekenddjango.git
+project_gunicorn_port: 8010

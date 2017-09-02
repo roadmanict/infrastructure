@@ -1,70 +1,77 @@
 - name: Deploy on OpenStack
   hosts: openstack
+  gather_facts: false
   tasks:
-    - name: Add Ansible keypair
-      os_keypair:
-        state: present
-        name: ansible
-        public_key_file: /Users/geertweggemans/.ssh/ansible.pub
-    - name: Configure network
-      os_network:
-        state: present
-        availability_zone: NL1
-        name: "{{ infra_env }}_network"
-        external: False
-        shared: False
-        wait: True
-    - name: Configure subnet
-      os_subnet:
-        state: present
-        availability_zone: NL1
-        network_name: "{{ infra_env }}_network"
-        name: "{{ infra_env }}_subnet"
-        cidr: 10.166.28.0/24
-        gateway_ip: 10.166.28.1
-        enable_dhcp: yes
-        dns_nameservers:
-        - 194.60.207.52
-        - 194.60.207.53
-    - name: Configure router
-      os_router:
-        state: present
-        availability_zone: NL1
-        name: "{{ infra_env }}_router"
-        enable_snat: yes
-        network: net-public
-        interfaces:
-          - "{{ infra_env }}_subnet"
-        wait: true
-    - name: Deploy an instance
-      os_server:
-        state: present
-        availability_zone: NL1
-        name: "{{ infra_env }}_server"
-        image: CloudVPS Ubuntu 16.04
-        key_name: ansible
-        flavor: Standard 1
-        security_groups:
-          - built-in-allow-icmp
-          - built-in-allow-web
-          - built-in-provider-access
-          - built-in-remote-access
-        network: "{{ infra_env }}_network"
-        floating_ips:
-          - "{{ floating_ip }}"
-        meta:
-          hostname: "{{ host_name }}"
-        wait: yes
-    - name: configure a 8gb database volume
-      os_volume:
-        state: present
-        availability_zone: NL1
-        size: 8
-        display_name: database_volume
-        wait: yes
-    - name: attach volume to host
-      os_server_volume:
-        state: present
-        server: "{{ infra_env }}_server"
-        volume: database_volume
-        device: /dev/sdb
+  - name: Add Ansible keypair
+    os_keypair:
+      state: present
+      name: ansible
+      public_key_file: /Users/geertweggemans/.ssh/ansible.pub
+
+  - name: Configure network
+    os_network:
+      state: present
+      availability_zone: NL1
+      name: "{{ env }}_network"
+      external: False
+      shared: False
+      wait: True
+
+  - name: Configure subnet
+    os_subnet:
+      state: present
+      availability_zone: NL1
+      network_name: "{{ env }}_network"
+      name: "{{ env }}_subnet"
+      cidr: 10.166.28.0/24
+      gateway_ip: 10.166.28.1
+      enable_dhcp: yes
+      dns_nameservers:
+      - 194.60.207.52
+      - 194.60.207.53
+
+  - name: Configure router
+    os_router:
+      state: present
+      availability_zone: NL1
+      name: "{{ env }}_router"
+      enable_snat: yes
+      network: net-public
+      interfaces:
+        - "{{ env }}_subnet"
+      wait: true
+
+  - name: Deploy an instance
+    os_server:
+      state: present
+      availability_zone: NL1
+      name: "{{ env }}_server"
+      image: CloudVPS Debian 8
+      key_name: ansible
+      flavor: Standard 1
+      security_groups:
+        - built-in-allow-icmp
+        - built-in-allow-web
+        - built-in-provider-access
+        - built-in-remote-access
+      network: "{{ env }}_network"
+      floating_ips:
+        - "{{ floating_ip }}"
+      meta:
+        hostname: "{{ host_name }}"
+      wait: yes
+
+  - name: configure a 8gb database volume
+    os_volume:
+      state: present
+      availability_zone: NL1
+      size: 8
+      display_name: database_volume
+      wait: yes
+
+  - name: attach volume to host
+    os_server_volume:
+      state: present
+      server: "{{ env }}_server"
+      volume: database_volume
+      device: /dev/vdb

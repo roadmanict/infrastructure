@@ -15,15 +15,21 @@
 #  roles:
 #    - { name: common, tags: common }
 #    - { name: concourse-web, tags: concourse-web }
-- hosts: vogelsangh-beta
+#- hosts: vogelsangh-beta
+#  vars_files:
+#    - "environments/{{ env }}/group_vars/vogelsangh-beta/vars.yml"
+#    - "environments/{{ env }}/group_vars/vogelsangh-beta/vault.yml"
+#  roles:
+#    - { name: django, tags: vogelsangh-beta }
+#- hosts: loo
+#  vars_files:
+#    - "environments/{{ env }}/group_vars/loo/vars.yml"
+#    - "environments/{{ env }}/group_vars/loo/vault.yml"
+#  roles:
+#    - { name: django, tags: loo }
+- hosts: stocks
   vars_files:
-    - "environments/{{ env }}/group_vars/vogelsangh-beta/vars.yml"
-    - "environments/{{ env }}/group_vars/vogelsangh-beta/vault.yml"
+    - "environments/{{ env }}/group_vars/stocks/vars.yml"
+#    - "environments/{{ env }}/group_vars/stocks/vault.yml"
   roles:
-    - { name: django, tags: vogelsangh-beta }
-- hosts: loo
-  vars_files:
-    - "environments/{{ env }}/group_vars/loo/vars.yml"
-    - "environments/{{ env }}/group_vars/loo/vault.yml"
-  roles:
-    - { name: django, tags: loo }
+    - { name: django, tags: stocks }

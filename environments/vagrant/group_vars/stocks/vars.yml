@@ -1,0 +1,14 @@
+---
+project_domain: stocks.gweggemans.local
+project_name: "stocks"
+django_name: "stocks"
+project_repository: git@bitbucket.org:roadman/stocks.git
+project_gunicorn_port: 8200
+django_cron_jobs:
+  - name: Stocks Import Stocks
+    weekday: "*"
+    minute: 34
+    hour: "*"
+    user: stocks
+    job: "~/venv/bin/python3 ~/django/manage.py import_stocks"
+    file: stocks_import_stocks
