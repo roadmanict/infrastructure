@@ -1,0 +1,7 @@
+---
+dependencies:
+ - role: certbot-add-domain
+   name: monit
+   domains:
+    - "{{ monit_domain }}"
+   email: "{{ administrator_email }}"
