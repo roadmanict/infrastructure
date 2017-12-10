@@ -1,0 +1,21 @@
+---
+- name: Creates certificate directory
+  file:
+    path: "/etc/letsencrypt/live/{{ item }}"
+    state: directory
+  with_items:
+    "{{ domains }}"
+
+- name: Copy fullchain key
+  copy:
+    src: server.pem
+    dest: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+  with_items:
+    "{{ domains }}"
+
+- name: Copy private key
+  copy:
+    src: server.key
+    dest: "/etc/letsencrypt/live/{{ item }}/privkey.pem"
+  with_items:
+    "{{ domains }}"
