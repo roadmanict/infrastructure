@@ -141,7 +141,7 @@
 ## Do not alert when Monit starts, stops or performs a user initiated action.
 ## This filter is recommended to avoid getting alerts for trivial cases.
 #
-# set alert your-name@your.domain not on { instance, action }
+set alert {{ administrator_email }} not on { instance, action }
 #
 #
 ## Monit has an embedded HTTP interface which can be used to view status of
