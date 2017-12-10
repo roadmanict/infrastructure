@@ -1,7 +1,7 @@
 ---
-- include: bootstrap.yml
+- import_tasks: bootstrap.yml
   become: yes
-- include: upgrade.yml
+- import_tasks: upgrade.yml
   become: yes
 - name: Set up Postfix to relay mail
   debconf: name=postfix

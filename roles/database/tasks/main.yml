@@ -1,4 +1,4 @@
 ---
-- include: volumes.yml
-- include: install.yml
-- include: configure.yml
+- import_tasks: volumes.yml
+- import_tasks: install.yml
+- import_tasks: configure.yml

@@ -1,12 +1,12 @@
 ---
-- include: configure.yml
+- import_tasks: configure.yml
   become: yes
 
-- include: database.yml
+- import_tasks: database.yml
   become: yes
   become_user: postgres
 
-- include: deploy.yml
+- import_tasks: deploy.yml
   become: yes
   become_user: "{{ django_user }}"
   environment:
@@ -14,7 +14,7 @@
   tags:
    - deploy
 
-- include: enable.yml
+- import_tasks: enable.yml
   become: yes
   tags:
    - deploy

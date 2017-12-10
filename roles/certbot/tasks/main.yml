@@ -1,10 +1,10 @@
 ---
-- include: install.yml
+- import_tasks: install.yml
   become: yes
   tags:
    - certbot
   when: env != "vagrant"
-- include: vagrant.yml
+- import_tasks: vagrant.yml
   become: yes
   tags:
    - certbot

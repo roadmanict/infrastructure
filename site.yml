@@ -1,2 +1,2 @@
 ---
-- include: instances.yml
+- import_playbook: instances.yml
