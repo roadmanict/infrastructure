@@ -6,7 +6,3 @@
   apt: name={{item}} state=present
   with_items:
   - nginx
-#- name: Add default configuration for nginx
-#  copy: src=default.conf dest=/etc/nginx/sites-enabled/_.conf
-#- name: Restart nginx
-#  service: name=nginx state=reloaded

@@ -6,24 +6,3 @@
   apt: name={{item}} state=present
   with_items:
   - certbot
-
-- name: Copy nginx config
-  template:
-    src: files/nginx.conf.j2
-    dest: "/etc/nginx/sites-enabled/certbot-{{ name }}.conf"
-
-- name: Restart nginx
-  service: name=nginx state=reloaded
-
-- name: Create certbot directory
-  file:
-    path: "{{ certbot_root }}/{{ name }}"
-    state: directory
-    mode: 0755
-    owner: www-data
-    group: www-data
-
-- name: create certbot certificates
-  shell: 'certbot certonly --webroot -w {{ certbot_root }}/{{ name }} --agree-tos --keep -d {{ item }} --email {{ email }}'
-  with_items:
-    "{{ domains }}"
