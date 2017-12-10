@@ -9,6 +9,8 @@
     - { name: load-balancer, tags: load-balancer }
 - hosts: monit
   become: true
+  handlers:
+    - import_tasks: roles/load-balancer/handlers/main.yml
   roles:
     - { name: monit, tags: monit }
 - hosts: database

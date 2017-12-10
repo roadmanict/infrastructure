@@ -5,3 +5,13 @@
   apt: name={{item}} state=present
   with_items:
     - monit
+- name: Copy monit config
+  template:
+    src: files/monitrc
+    dest: /etc/monit/monitrc
+  notify: restart monit
+- name: Copy nginx config
+  template:
+    src: files/nginx.conf.j2
+    dest: /etc/nginx/sites-enabled/monit.conf
+  notify: reload nginx
