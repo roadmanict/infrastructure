@@ -18,3 +18,26 @@
     src: files/nginx.conf.j2
     dest: /etc/nginx/sites-enabled/monit.conf
   notify: reload nginx
+
+- name: Enable available configuration
+  file:
+    src: "{{ item.from }}"
+    dest: "{{ item.to }}"
+    state: link
+  with_items:
+    - from: /etc/monit/conf-available/rsyslog
+      to: /etc/monit/conf.d/rsyslog
+    - from: /etc/monit/conf-available/cron
+      to: /etc/monit/conf.d/cron
+    - from: /etc/monit/conf-available/nginx
+      to: /etc/monit/conf.d/nginx
+  notify: restart monit
+
+- name: Copy conf.d custom files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/monit/{{ item }}"
+  with_items:
+    - conf.d/postfix
+    - conf.d/openssh-server
+  notify: restart monit

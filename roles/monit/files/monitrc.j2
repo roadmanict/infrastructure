@@ -77,9 +77,7 @@
 # will use the second mail server in the list and so on. By default Monit uses
 # port 25 - it is possible to override this with the PORT option.
 #
-# set mailserver mail.bar.baz,               # primary mailserver
-#                backup.bar.baz port 10025,  # backup mailserver on port 10025
-#                localhost                   # fallback relay
+set mailserver localhost
 #
 #
 ## By default Monit will drop alert events if no mail servers are available.
@@ -221,17 +219,15 @@ set httpd port 2812 and
 ## stop may be cascaded to them before the filesystem will become full and data
 ## lost.
 #
-#  check filesystem datafs with path /dev/sdb1
-#    start program  = "/bin/mount /data"
-#    stop program  = "/bin/umount /data"
-#    if failed permission 660 then unmonitor
-#    if failed uid root then unmonitor
-#    if failed gid disk then unmonitor
-#    if space usage > 80% for 5 times within 15 cycles then alert
-#    if space usage > 99% then stop
-#    if inode usage > 30000 then alert
-#    if inode usage > 99% then stop
-#    group server
+  check filesystem database with path /dev/sdb
+    if failed permission 660 then unmonitor
+    if failed uid root then unmonitor
+    if failed gid disk then unmonitor
+    if space usage > 80% for 5 times within 15 cycles then alert
+    if space usage > 99% then stop
+    if inode usage > 30000 then alert
+    if inode usage > 99% then stop
+    group server
 #
 #
 ## Check a file's timestamp. In this example, we test if a file is older
