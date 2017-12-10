@@ -2,3 +2,5 @@
 *.retry
 env_vars.sh
 .vagrant/
+tmp/
+.DS_Store
