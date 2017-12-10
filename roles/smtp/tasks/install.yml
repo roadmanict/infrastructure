@@ -1,0 +1,71 @@
+---
+- name: ensure apt cache is up to date
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Set up Postfix to relay mail
+  debconf: name=postfix
+           question='{{ item.question }}'
+           value='{{ item.value }}'
+           vtype='{{ item.vtype }}'
+  with_items:
+    - { question: 'postfix/mailname', value: '{{ ansible_fqdn }}', vtype: 'string' }
+    - { question: 'postfix/main_mailer_type', value: 'Internet Site', vtype: 'string' }
+  become: yes
+
+- name: install postfix
+  apt: name={{item}} state=present
+  with_items:
+  - libsasl2-modules
+  - postfix
+
+- name: setup root alias
+  lineinfile:
+    path: /etc/aliases
+    regexp: "^root:"
+    line: "root: {{ administrator_email }}"
+  register: aliases_result
+
+- name: run newaliases
+  shell: newaliases
+  when: aliases_result | changed
+  notify: restart postfix
+
+- name: copy sasl_passwd file
+  template:
+    src: files/sasl_passwd.j2
+    dest: /etc/postfix/sasl_passwd
+    mode: 0600
+  register: postfix_sasl_passwd_result
+  notify: restart postfix
+
+- name: postmap sasl_passwd
+  shell: postmap hash:/etc/postfix/sasl_passwd
+  when: postfix_sasl_passwd_result | changed
+
+- name: copy generic file
+  template:
+    src: files/generic.j2
+    dest: /etc/postfix/generic
+    mode: 0600
+  register: postfix_generic_result
+  notify: restart postfix
+
+- name: postmap generic
+  shell: postmap hash:/etc/postfix/generic
+  when: postfix_generic_result | changed
+
+- name: secure sasl_passwd files
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - /etc/postfix/sasl_passwd
+    - /etc/postfix/sasl_passwd.db
+
+- name: copy main postfix config file
+  template:
+    src: files/main.cf.j2
+    dest: /etc/postfix/main.cf
+  notify: restart postfix

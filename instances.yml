@@ -3,6 +3,13 @@
   become: true
   roles:
     - { name: common, tags: common }
+- hosts: smtp
+  become: true
+  roles:
+    - { name: smtp, tags: smtp }
+  vars_files:
+    - "environments/{{ env }}/group_vars/smtp/vars.yml"
+    - "environments/{{ env }}/group_vars/smtp/vault.yml"
 - hosts: load-balancer
   become: true
   roles:
