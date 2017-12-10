@@ -5,7 +5,6 @@
   apt: name={{item}} state=present
   with_items:
   - git
-  - postfix
   - python-minimal
   - aptitude
   - acl
