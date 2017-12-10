@@ -5,12 +5,14 @@
     regexp: '^listen_addresses'
     insertafter: '^#listen_addresses '
     line: "listen_addresses 'localhost, 172.17.0.1'"
+  notify: restart postgresql
 
 - name: ensure to listen to Docker ip address ranges
   lineinfile:
     dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
     regexp: '^host all all 172.17.0.0/16 md5'
     line: "host all all 172.17.0.0/16 md5"
+  notify: restart postgresql
 
 - name: Copy conf files to postgres data directory
   copy:
@@ -24,5 +26,8 @@
     - pg_ident.conf
     - start.conf
 
-- name: restart postgresql
-  service: name=postgresql state=restarted
+- name: Add postgresql to monit
+  copy:
+    src: monit
+    dest: /etc/monit/conf.d/postgresql
+  notify: restart monit
