@@ -2,6 +2,8 @@ test.roadmanict.nl
 
 [all:vars]
 env=production
+server_email=server@gweggemans.nl
+administrator_email=geert@gweggemans.nl
 
 [openstack]
 localhost
@@ -12,8 +14,13 @@ ansible_python_interpreter=/usr/local/bin/python2
 host_name=roadmanict.nl
 floating_ip=185.3.210.203
 
+[smtp]
+test.roadmanict.nl
 
 [load-balancer]
+test.roadmanict.nl
+
+[monit]
 test.roadmanict.nl
 
 [database]

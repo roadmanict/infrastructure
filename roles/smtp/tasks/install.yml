@@ -1,4 +1,9 @@
 ---
+- name: Copy mailname
+  template:
+    src: files/mailname.j2
+    dest: /etc/mailname
+
 - name: ensure apt cache is up to date
   apt: update_cache=yes cache_valid_time=3600
 

@@ -8,3 +8,12 @@ check process postgresql with pidfile /var/lib/postgresql/9.6/main/postmaster.pi
     if failed host localhost port 5432 protocol pgsql then alert
     if 2 restarts within 2 cycles then alert
     if 5 restarts within 5 cycles then timeout
+
+check filesystem database with path /dev/vdb
+    if failed permission 660 then unmonitor
+    if failed uid root then unmonitor
+    if failed gid disk then unmonitor
+    if space usage > 80% for 5 times within 15 cycles then alert
+    if space usage > 99% then stop
+    if inode usage > 30000 then alert
+    if inode usage > 99% then stop

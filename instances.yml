@@ -16,6 +16,8 @@
     - { name: load-balancer, tags: load-balancer }
 - hosts: monit
   become: true
+  vars_files:
+    - "environments/{{ env }}/group_vars/monit/vars.yml"
   handlers:
     - import_tasks: roles/load-balancer/handlers/main.yml
   roles:

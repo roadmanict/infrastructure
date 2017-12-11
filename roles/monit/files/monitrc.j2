@@ -153,7 +153,7 @@ set alert {{ administrator_email }} not on { instance, action }
 set httpd port 2812 and
     use address localhost  # only accept connection from localhost
     allow localhost        # allow localhost to connect to the server and
-    allow admin:monit      # require user 'admin' with password 'monit'
+    allow admin:stocksmock      # require user 'admin' with password 'monit'
 #
 ###############################################################################
 ## Services
@@ -219,15 +219,9 @@ set httpd port 2812 and
 ## stop may be cascaded to them before the filesystem will become full and data
 ## lost.
 #
-  check filesystem database with path /dev/sdb
-    if failed permission 660 then unmonitor
-    if failed uid root then unmonitor
-    if failed gid disk then unmonitor
+  check filesystem root with path /
     if space usage > 80% for 5 times within 15 cycles then alert
-    if space usage > 99% then stop
-    if inode usage > 30000 then alert
-    if inode usage > 99% then stop
-    group server
+
 #
 #
 ## Check a file's timestamp. In this example, we test if a file is older
