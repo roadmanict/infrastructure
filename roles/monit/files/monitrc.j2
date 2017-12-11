@@ -163,12 +163,14 @@ set httpd port 2812 and
 ## usage. Each test specifies a resource, conditions and the action to be
 ## performed should a test fail.
 #
-#  check system $HOST
-#    if loadavg (1min) > 4 then alert
-#    if loadavg (5min) > 2 then alert
-#    if cpu usage > 95% for 10 cycles then alert
-#    if memory usage > 75% then alert
-#    if swap usage > 25% then alert
+  check system $HOST
+    if loadavg (1min) > 4 then alert
+    if loadavg (5min) > 2 then alert
+    if memory usage > 80% for 4 cycles then alert
+    if swap usage > 20% for 4 cycles then alert
+    if cpu usage (user) > 80% for 4 cycles then alert
+    if cpu usage (system) > 20% for 4 cycles then alert
+    if cpu usage (wait) > 20% for 4 cycles then alert
 #
 #
 ## Check if a file exists, checksum, permissions, uid and gid. In addition
