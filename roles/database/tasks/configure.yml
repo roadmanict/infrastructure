@@ -27,7 +27,7 @@
     - start.conf
 
 - name: Add postgresql to monit
-  copy:
-    src: monit
+  template:
+    src: files/monit.j2
     dest: /etc/monit/conf.d/postgresql
   notify: restart monit
