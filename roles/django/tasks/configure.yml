@@ -43,17 +43,28 @@
     owner: "{{ django_user }}"
     group: www-data
 
-- name: Copy gunicorn config
+- name: Copy systemd file
   template:
     src: files/django.service.j2
     dest: "/etc/systemd/system/{{ project_name }}.service"
 
+- name: Copy custom systemd files
+  template:
+    src: files/django_custom.service.j2
+    dest: "/etc/systemd/system/{{ project_name }}_{{ item.name }}.service"
+  with_items: "{{ django_systemd_services }}"
+
 - name: Reload service files
   systemd:
-    name: loo
     daemon_reload: yes
 
 - name: Copy nginx config
   template:
     src: files/nginx.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ project_name }}.conf"
+#
+#- name: Add project to monit
+#  template:
+#    src: files/monit.j2
+#    dest: "/etc/monit/conf.d/{{ project_name }}.conf"
+#  notify: restart monit

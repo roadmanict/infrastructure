@@ -46,3 +46,5 @@
 #    - "environments/{{ env }}/group_vars/stocks/vault.yml"
   roles:
     - { name: django, tags: stocks }
+  handlers:
+    - import_tasks: roles/monit/handlers/main.yml

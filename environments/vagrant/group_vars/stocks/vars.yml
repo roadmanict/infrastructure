@@ -12,3 +12,7 @@ django_cron_jobs:
     user: stocks
     job: "~/venv/bin/python3 ~/django/manage.py import_stocks"
     file: stocks_import_stocks
+    state: absent
+django_systemd_services:
+  - name: binance
+    command: manage.py binance

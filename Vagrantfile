@@ -1,4 +1,4 @@
-file_to_disk = './tmp/database.vdi'
+file_to_disk = 'tmp/database.vdi'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/stretch64"

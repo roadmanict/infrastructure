@@ -12,6 +12,7 @@ django_cron_jobs:
     user: stocks
     job: "DJANGO_SETTINGS_MODULE=stocks.settings.production ~/venv/bin/python3 ~/django/manage.py import_stocks > /home/{{ project_name }}/import_stocks.log 2>&1"
     file: stocks_import_stocks
+    state: absent
   - name: Run learning algorithm
     weekday: "*"
     minute: "*"
@@ -20,3 +21,7 @@ django_cron_jobs:
     user: stocks
     job: "DJANGO_SETTINGS_MODULE=stocks.settings.production ~/venv/bin/python3 ~/django/manage.py learning_agents > /home/{{ project_name }}/learning_agents.log 2>&1"
     file: stocks_import_stocks
+    state: absent
+django_systemd_services:
+  - name: binance
+    command: manage.py binance

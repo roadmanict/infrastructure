@@ -13,3 +13,5 @@ django_static_dir: "/var/www/{{ project_name }}/static"
 django_static_url: "https://{{ project_domain }}/static/"
 django_media_dir: "/var/www/{{ project_name }}/media"
 django_media_url: "https://{{ project_domain }}/media/"
+django_cron_jobs: []
+django_services: []
