@@ -77,7 +77,7 @@
 # will use the second mail server in the list and so on. By default Monit uses
 # port 25 - it is possible to override this with the PORT option.
 #
-set mailserver localhost
+set mailserver 127.0.0.1
 #
 #
 ## By default Monit will drop alert events if no mail servers are available.
@@ -127,7 +127,7 @@ set mailserver localhost
 ## or sender using the MAIL-FORMAT statement. Macros such as $DATE, etc.
 ## are expanded at runtime. For example, to override the sender, use:
 #
-# set mail-format { from: monit@foo.bar }
+set mail-format { from: Monit <monit@gweggemans.nl> }
 #
 #
 ## You can set alert recipients whom will receive alerts if/when a
