@@ -63,8 +63,12 @@
     src: files/nginx.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ project_name }}.conf"
 #
-#- name: Add project to monit
-#  template:
-#    src: files/monit.j2
-#    dest: "/etc/monit/conf.d/{{ project_name }}.conf"
-#  notify: restart monit
+- name: Add project to monit
+  template:
+    src: files/monit.j2
+    dest: "/etc/monit/conf.d/{{ project_name }}.conf"
+  notify: restart monit
+  vars:
+    systemd_services: "{{ django_systemd_services }}"
+  tags:
+    - monit

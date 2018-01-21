@@ -7,6 +7,7 @@ TimeoutStartSec=0
 User={{ django_user }}
 WorkingDirectory={{ django_project_root }}
 ExecStart={{ django_venv_dir }}/bin/python {{ item.command }}
+PIDFile={{ django_project_root }}/{{ project_name }}_{{ item.name }}.pid
 
 [Install]
 WantedBy=multi-user.target

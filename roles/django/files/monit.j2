@@ -1,1 +1,5 @@
-check process stocks with pidfile /home/stocks/django/gunicorn.pid
+check process {{ project_name }} with pidfile {{ django_project_root }}/gunicorn.pid
+
+{% for service in systemd_services %}
+check process {{ project_name }}_{{ service.name }} with pidfile {{ django_project_root }}/{{ project_name }}_{{ service.name }}.pid
+{% endfor %}
