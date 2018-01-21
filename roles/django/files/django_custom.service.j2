@@ -1,0 +1,12 @@
+[Unit]
+Description={{ project_name }}
+After=postgresql.service
+
+[Service]
+TimeoutStartSec=0
+User={{ django_user }}
+WorkingDirectory={{ django_project_root }}
+ExecStart={{ django_venv_dir }}/bin/python {{ item.command }}
+
+[Install]
+WantedBy=multi-user.target
