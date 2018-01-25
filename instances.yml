@@ -3,6 +3,8 @@
   become: true
   roles:
     - { name: common, tags: common }
+  vars_files:
+    - "environments/{{ env }}/group_vars/common/vars.yml"
 - hosts: smtp
   become: true
   roles:

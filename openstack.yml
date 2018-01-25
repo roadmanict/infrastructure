@@ -69,9 +69,24 @@
       display_name: database_volume
       wait: yes
 
-  - name: attach volume to host
+  - name: attach database volume to host
     os_server_volume:
       state: present
       server: "{{ env }}_server"
       volume: database_volume
       device: /dev/vdb
+
+  - name: configure a 8gb backup volume
+    os_volume:
+      state: present
+      availability_zone: NL1
+      size: 8
+      display_name: backup_volume
+      wait: yes
+
+  - name: attach backup volume to host
+    os_server_volume:
+      state: present
+      server: "{{ env }}_server"
+      volume: backup_volume
+      device: /dev/vdc

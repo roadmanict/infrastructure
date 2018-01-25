@@ -1,8 +1,8 @@
 ---
-- name: ensure database volume is formatted
-  filesystem:
-    fstype: ext4
-    dev: "{{ database_drive_device }}"
+#- name: ensure database volume is formatted
+#  filesystem:
+#    fstype: ext4
+#    dev: "{{ database_drive_device }}"
 
 - name: automount volume
   mount:
