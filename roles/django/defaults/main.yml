@@ -15,3 +15,4 @@ django_media_dir: "/var/www/{{ project_name }}/media"
 django_media_url: "https://{{ project_domain }}/media/"
 django_cron_jobs: []
 django_services: []
+django_default_branch: master
