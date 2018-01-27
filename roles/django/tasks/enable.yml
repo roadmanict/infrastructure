@@ -1,22 +1,12 @@
 ---
 - name: Fix django static permissions
-  file: path="{{ django_static_dir }}" owner="{{ django_user }}" group=www-data mode=0775 state=directory recurse=yes
-
-- name: Enable and start gunicorn
-  service:
-    name: "{{ project_name }}"
-    state: restarted
-    enabled: yes
-
-- name: Enable custom systemd files
-  service:
-    name: "{{ project_name }}_{{ item.name }}"
-    state: restarted
-    enabled: yes
-  with_items: "{{ django_systemd_services }}"
-
-- name: Restart nginx
-  service: name=nginx state=reloaded
+  file:
+    path: "{{ django_static_dir }}"
+    owner: "{{ django_user }}"
+    group: www-data
+    mode: 0755
+    state: directory
+    recurse: yes
 
 - name: Add cronjobs
   cron:

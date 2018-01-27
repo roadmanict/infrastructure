@@ -27,14 +27,6 @@
     name: "{{ django_user }}"
     state: present
 
-- name: Create static directory
-  file:
-    path: "{{ django_static_dir }}"
-    state: directory
-    mode: 0755
-    owner: "{{ django_user }}"
-    group: www-data
-
 - name: Create media directory
   file:
     path: "{{ django_media_dir }}"
@@ -62,6 +54,7 @@
   template:
     src: files/nginx.conf.j2
     dest: "/etc/nginx/sites-enabled/{{ project_name }}.conf"
+  notify: reload nginx
 #
 - name: Add project to monit
   template:
