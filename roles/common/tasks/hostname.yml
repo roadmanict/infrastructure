@@ -1,0 +1,12 @@
+---
+- name: Update /etc/hostname file
+  action: lineinfile dest=/etc/hostname regexp=.* line={{inventory_hostname}} create=yes
+
+- name: set hostname to current ansible name
+  action: command hostname {{inventory_hostname}}
+
+- name: set hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: ^127.0.1.1
+    line: "127.0.1.1 {{ inventory_hostname }}"
