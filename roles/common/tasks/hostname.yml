@@ -1,9 +1,10 @@
 ---
 - name: Update /etc/hostname file
-  action: lineinfile dest=/etc/hostname regexp=.* line={{inventory_hostname}} create=yes
-
-- name: set hostname to current ansible name
-  action: command hostname {{inventory_hostname}}
+  copy:
+    content: '{{inventory_hostname}}'
+    dest: /etc/hostname
+    force: no
+  notify: reset hostname
 
 - name: set hostname in /etc/hosts
   lineinfile:

@@ -1,0 +1,3 @@
+---
+- name: reset hostname
+  command: hostname {{inventory_hostname}}
