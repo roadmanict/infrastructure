@@ -17,7 +17,13 @@
     owner: www-data
     group: www-data
 
+- name: Check if certificate exists
+  stat:
+    path: '{{ certbot_root }}/{{ name }}'
+  register: cert_dir
+
 - name: create certbot certificates
   shell: 'certbot certonly --webroot -w {{ certbot_root }}/{{ name }} --agree-tos --keep -d {{ item }} --email {{ email }}'
   with_items:
     "{{ domains }}"
+  when: cert_dir.stat.isdir is undefined
