@@ -15,6 +15,7 @@
     key_file: ~/.ssh/deploy_key
     accept_hostkey: yes
     version: "{{ django_default_branch }}"
+    update: yes
   notify:
     - Restart django project
     - Restart django custom systemd files
