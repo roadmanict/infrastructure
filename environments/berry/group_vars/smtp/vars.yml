@@ -1,0 +1,3 @@
+---
+smtp_username: geert@gweggemans.nl
+smtp_password: "{{ vault_smtp_password }}"

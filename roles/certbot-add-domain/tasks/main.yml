@@ -1,9 +1,13 @@
 ---
+- import_tasks: install.yml
+  become: yes
+
 - import_tasks: request-cert.yml
   become: yes
   tags:
    - certbot
   when: env != "vagrant"
+
 - import_tasks: vagrant.yml
   become: yes
   tags:
