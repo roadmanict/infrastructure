@@ -2,28 +2,25 @@
 - name: Copy nginx config
   template:
     src: files/nginx.conf.j2
-    dest: "/etc/nginx/sites-enabled/certbot-{{ name }}.conf"
-  register: nginx_config
+    dest: "/etc/nginx/sites-enabled/certbot-{{ project_name }}.conf"
+  notify: reload nginx
 
-- name: Reload nginx
-  service: name=nginx state=restarted
-  when: nginx_config | changed
+- name: Check if certificate exists
+  stat:
+    path: '{{ certbot_root }}/{{ project_name }}'
+  register: cert_dir
 
 - name: Create certbot directory
   file:
-    path: "{{ certbot_root }}/{{ name }}"
+    path: "{{ certbot_root }}/{{ project_name }}"
     state: directory
     mode: 0755
     owner: www-data
     group: www-data
-
-- name: Check if certificate exists
-  stat:
-    path: '{{ certbot_root }}/{{ name }}'
-  register: cert_dir
+  when: cert_dir.stat.isdir is undefined
 
 - name: create certbot certificates
-  shell: 'certbot certonly --webroot -w {{ certbot_root }}/{{ name }} --agree-tos --keep -d {{ item }} --email {{ email }}'
+  shell: 'certbot certonly --webroot -w {{ certbot_root }}/{{ project_name }} --agree-tos --keep -d {{ item }} --email {{ email }}'
   with_items:
     "{{ domains }}"
   when: cert_dir.stat.isdir is undefined

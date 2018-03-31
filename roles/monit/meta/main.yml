@@ -1,7 +1,7 @@
 ---
 dependencies:
  - role: certbot-add-domain
-   name: monit
+   project_name: monit
    domains:
     - "{{ monit_domain }}"
    email: "{{ administrator_email }}"

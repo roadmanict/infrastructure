@@ -8,3 +8,9 @@ administrator_email=geert@gweggemans.nl
 
 [smtp]
 roadman.nl
+
+[load-balancer]
+roadman.nl
+
+[monit]
+roadman.nl
