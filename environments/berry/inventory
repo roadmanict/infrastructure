@@ -1,0 +1,6 @@
+192.168.2.30 ansible_user=pi
+
+[all:vars]
+env=berry
+server_email=server@gweggemans.nl
+administrator_email=geert@gweggemans.nl

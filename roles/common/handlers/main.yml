@@ -1,3 +1,6 @@
 ---
 - name: reset hostname
   command: hostname {{inventory_hostname}}
+
+- name: reload ssh
+  service: name=ssh state=reloaded
