@@ -1,2 +1,2 @@
 ---
-database_drive_device: /dev/vdb
+database_drive_device: /dev/sdb

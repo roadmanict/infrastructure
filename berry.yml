@@ -59,6 +59,7 @@
 #    - "environments/{{ env }}/group_vars/loo/vault.yml"
 #  roles:
 #    - { name: django, tags: loo }
+
 #- hosts: stocks
 #  vars_files:
 #    - "environments/{{ env }}/group_vars/stocks/vars.yml"
