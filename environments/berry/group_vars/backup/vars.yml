@@ -1,0 +1,8 @@
+---
+backup_volume: /dev/sda
+swift_os_username: geert@roadmanict.nl
+swift_os_password: "{{ vault_swift_os_password }}"
+swift_os_auth_url: https://identity.stack.cloudvps.com/v2.0
+swift_os_tenant_id: 8f80a2d2558a4179acc6320c89b1296c
+swift_os_tenant_name: BRO000087 Roadman ICT
+swift_os_region_name: NL

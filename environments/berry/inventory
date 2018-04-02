@@ -6,6 +6,9 @@ env=berry
 server_email=berry@gweggemans.nl
 administrator_email=geert@gweggemans.nl
 
+[backup]
+roadman.nl
+
 [smtp]
 roadman.nl
 
@@ -13,4 +16,7 @@ roadman.nl
 roadman.nl
 
 [monit]
+roadman.nl
+
+[database]
 roadman.nl
