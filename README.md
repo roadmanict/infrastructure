@@ -1,3 +1,13 @@
+# Raspberry PI
+
+First run bootstrap playbook
+
+```
+ansible-playbook --ask-pass -i ./environments/berry/inventory site.yml
+```
+
+# Openstack
+
 Create env_vars.sh file with:
 ```
 #!/bin/bash

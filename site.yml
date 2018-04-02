@@ -1,2 +1,2 @@
 ---
-- import_playbook: instances.yml
+- import_playbook: berry.yml

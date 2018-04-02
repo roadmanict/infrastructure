@@ -13,14 +13,8 @@
   - build-essential
   - libssl-dev
   - libffi-dev
-  - ruby-full
-  - rubygems
   - software-properties-common
-
-- name: Install sass
-  gem:
-    name: sass
-    state: present
+  - libatlas3-base
 
 - name: create user
   user:

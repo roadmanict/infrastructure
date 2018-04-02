@@ -1,5 +1,5 @@
 ---
-project_domain: stocks.roadmanict.nl
+project_domain: stocks.roadman.nl
 project_name: "stocks"
 django_name: "stocks"
 project_repository: git@bitbucket.org:roadman/stocks.git

@@ -32,7 +32,7 @@
 
 - name: run newaliases
   shell: newaliases
-  when: aliases_result | changed
+  when: aliases_result is changed
   notify: restart postfix
 
 - name: copy sasl_passwd file
@@ -45,7 +45,7 @@
 
 - name: postmap sasl_passwd
   shell: postmap hash:/etc/postfix/sasl_passwd
-  when: postfix_sasl_passwd_result | changed
+  when: postfix_sasl_passwd_result is changed
 
 - name: copy generic file
   template:
@@ -57,7 +57,7 @@
 
 - name: postmap generic
   shell: postmap hash:/etc/postfix/generic
-  when: postfix_generic_result | changed
+  when: postfix_generic_result is changed
 
 - name: secure sasl_passwd files
   file:
