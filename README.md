@@ -3,7 +3,7 @@
 First run bootstrap playbook
 
 ```
-ansible-playbook --ask-pas -i ./environments/berry/inventory site.yml
+ansible-playbook --ask-pass -i ./environments/berry/inventory site.yml
 ```
 
 # Openstack
