@@ -1,3 +1,7 @@
 ---
+- import_tasks: backup_volume.yml
+  become: yes
+  when: backup_volume is defined
+
 - import_tasks: install.yml
   become: yes

@@ -1,5 +1,6 @@
 ---
-backup_volume: /dev/sda
+backup_volume: d90ae9bd-a377-491e-a031-5705f91ec003
+backup_dir: /mnt/backup
 swift_os_username: geert@roadmanict.nl
 swift_os_password: "{{ vault_swift_os_password }}"
 swift_os_auth_url: https://identity.stack.cloudvps.com/v2.0

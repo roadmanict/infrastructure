@@ -9,7 +9,7 @@ check process postgresql with pidfile /var/lib/postgresql/9.6/main/postmaster.pi
     if 2 restarts within 2 cycles then alert
     if 5 restarts within 5 cycles then timeout
 
-check filesystem database with path {{ database_drive_device }}
+check filesystem database with path /var/lib/postgresql
     if failed permission 660 then unmonitor
     if failed uid root then unmonitor
     if failed gid disk then unmonitor

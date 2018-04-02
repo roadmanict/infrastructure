@@ -10,7 +10,3 @@
 
 - import_tasks: ssh.yml
   become: yes
-
-- import_tasks: backup_volume.yml
-  become: yes
-  when: backup_volume is defined

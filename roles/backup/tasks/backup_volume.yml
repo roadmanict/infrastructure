@@ -9,5 +9,5 @@
     boot: yes
     state: mounted
     fstype: ext4
-    src: "{{ backup_volume }}"
+    src: "UUID={{ backup_volume }}"
     name: "{{ backup_dir }}"

@@ -60,11 +60,13 @@
 #  roles:
 #    - { name: django, tags: loo }
 
-#- hosts: stocks
-#  vars_files:
-#    - "environments/{{ env }}/group_vars/stocks/vars.yml"
-#    - "environments/{{ env }}/group_vars/stocks/vault.yml"
-#  roles:
-#    - { name: django, tags: stocks }
-#  handlers:
-#    - import_tasks: roles/monit/handlers/main.yml
+- hosts: stocks
+  gather_facts: no
+  vars_files:
+    - "environments/{{ env }}/group_vars/stocks/vars.yml"
+    - "environments/{{ env }}/group_vars/stocks/vault.yml"
+  roles:
+    - { name: django, tags: stocks }
+  handlers:
+    - import_tasks: roles/load-balancer/handlers/main.yml
+    - import_tasks: roles/monit/handlers/main.yml

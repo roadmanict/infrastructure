@@ -17,7 +17,7 @@
     name: upload backup to the object store
     minute: 0
     hour: 3
-    job: bash --rcfile /root/swift_rc.sh -ci "swift upload --changed berry_backup /mnt/backup"
+    job: "bash --rcfile /root/swift_rc.sh -ci \"swift upload --changed berry_backup {{ backup_dir }}\""
     state: present
 
 - name: Add to monit
