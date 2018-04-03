@@ -10,7 +10,7 @@ django_cron_jobs:
   weekday: "*"
   minute: 0
   hour: 2
-  job: "pg_dump -Fc {{ django_db_name }} > /var/backup/database/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_{{ project_name }}_database_backup.tar"
+  job: "pg_dump -Fc {{ django_db_name }} > {{ backup_dir }}/database/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_{{ project_name }}_database_backup.tar"
   file: stocks_database_backup
   state: present
 django_systemd_services:

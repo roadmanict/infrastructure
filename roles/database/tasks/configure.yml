@@ -34,7 +34,7 @@
 
 - name: Create backup directory
   file:
-    path: /var/backup/database
+    path: "{{ backup_dir }}/database"
     state: directory
     mode: 0755
     owner: postgres
