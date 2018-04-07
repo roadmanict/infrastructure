@@ -1,10 +1,7 @@
 ---
-- name: Update /etc/hostname file
-  copy:
-    content: '{{inventory_hostname}}'
-    dest: /etc/hostname
-    force: no
-  notify: reset hostname
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
 
 - name: set hostname in /etc/hosts
   lineinfile:
