@@ -1,9 +1,17 @@
 ---
 - hosts: all
+  tasks:
+  - name: ensure apt cache is up to date
+    apt:
+      update_cache: "yes"
+      cache_valid_time: 3600
+      force_apt_get: "yes"
+
+- hosts: all
   gather_facts: no
   become: true
   roles:
-    - { name: common, tags: common }
+    - { name: ansible-common, tags: common }
   vars_files:
     - "environments/{{ env }}/group_vars/common/vars.yml"
 
