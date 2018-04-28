@@ -4,6 +4,7 @@
     name: "{{ project_name }}"
     state: restarted
     enabled: yes
+  become: "yes"
 
 - name: Restart django custom systemd files
   service:
@@ -11,3 +12,4 @@
     state: restarted
     enabled: yes
   with_items: "{{ django_systemd_services }}"
+  become: "yes"
