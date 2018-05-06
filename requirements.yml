@@ -1,6 +1,8 @@
 ---
 - src: https://github.com/roadmanict/ansible-common.git
-  version: v0.1.1
+  version: v0.1.2
 - dev-sec.os-hardening
 - dev-sec.ssh-hardening
-- dev-sec.nginx-hardening
+- src: https://github.com/dev-sec/ansible-nginx-hardening
+  version: master
+- smehan.compile-python3

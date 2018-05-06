@@ -1,5 +1,7 @@
 ---
 - name: reload nginx
   service: name=nginx state=reloaded
+  become: "yes"
 - name: restart nginx
   service: name=nginx state=restarted
+  become: "yes"

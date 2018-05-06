@@ -23,3 +23,6 @@ roadman.nl
 
 [stocks]
 roadman.nl
+
+[python3:children]
+stocks

@@ -16,6 +16,7 @@
     accept_hostkey: yes
     version: "{{ django_default_branch }}"
     update: yes
+    force: "yes"
   notify:
     - Restart django project
     - Restart django custom systemd files
@@ -24,7 +25,7 @@
   pip:
     requirements: "{{ django_project_root }}/prod_requirements.txt"
     virtualenv: "{{ django_venv_dir }}"
-    virtualenv_command: "pyvenv-3.5"
+    virtualenv_command: "pyvenv-3.6"
 
 - name: Copy local settings
   template:

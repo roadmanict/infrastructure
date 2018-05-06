@@ -1,6 +1,7 @@
 test.roadmanict.nl
 
 [all:vars]
+ansible_user=ansible
 env=production
 server_email=server@gweggemans.nl
 administrator_email=geert@gweggemans.nl

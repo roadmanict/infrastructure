@@ -39,3 +39,6 @@ default
 
 [stocks]
 default
+
+[python3:children]
+stocks
