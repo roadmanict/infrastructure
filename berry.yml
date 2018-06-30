@@ -57,10 +57,9 @@
 - hosts: database
   gather_facts: no
   become: "yes"
-  vars_files:
-    - "environments/{{ env }}/group_vars/backup/vars.yml"
   roles:
-    - { name: database, tags: database }
+    - role: geerlingguy.postgresql
+      tags: database
   handlers:
     - import_tasks: roles/monit/handlers/main.yml
 
@@ -69,7 +68,7 @@
   roles:
     - { name: smehan.compile-python3, tags: python3, become: yes }
   vars:
-    - compiled_python_version: 3.6.5
+    - compiled_python_version: 3.7.0
 
 - hosts: stocks
   gather_facts: no

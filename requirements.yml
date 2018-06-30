@@ -6,3 +6,4 @@
 - src: https://github.com/dev-sec/ansible-nginx-hardening
   version: master
 - smehan.compile-python3
+- geerlingguy.postgresql

@@ -1,4 +1,5 @@
-roadman.nl
+leah.roadman.nl ansible_host=192.168.2.30
+uncle-deckard.roadman.nl ansible_host=192.168.2.31
 
 [all:vars]
 ansible_user=pi
@@ -7,22 +8,22 @@ server_email=berry@gweggemans.nl
 administrator_email=geert@gweggemans.nl
 
 [backup]
-roadman.nl
+leah.roadman.nl
 
 [smtp]
-roadman.nl
+leah.roadman.nl
 
 [load-balancer]
-roadman.nl
+leah.roadman.nl
 
 [monit]
-roadman.nl
+leah.roadman.nl
 
 [database]
-roadman.nl
-
-[stocks]
-roadman.nl
+uncle-deckard.roadman.nl
 
 [python3:children]
 stocks
+
+[stocks]
+leah.roadman.nl

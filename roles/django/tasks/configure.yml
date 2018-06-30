@@ -5,6 +5,8 @@
 #  - libffi-dev
 #  - software-properties-common
 #  - libatlas3-base
+#  - libopenblas-dev
+#  - liblapack-dev
 
 - name: create user
   user:

@@ -16,4 +16,4 @@ django_cron_jobs:
 django_systemd_services:
   - name: binance
     command: manage.py binance
-django_default_branch: virtual
+django_default_branch: master
