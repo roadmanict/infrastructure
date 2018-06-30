@@ -1,4 +1,4 @@
-leah.roadman.nl ansible_host=192.168.2.30
+leah.roadman.nl ansible_host=roadman.nl
 uncle-deckard.roadman.nl ansible_host=192.168.2.31
 
 [all:vars]
