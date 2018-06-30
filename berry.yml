@@ -57,7 +57,11 @@
 - hosts: database
   gather_facts: no
   become: "yes"
+  vars_files:
+    - "environments/{{ env }}/group_vars/database/vars.yml"
   roles:
+    - name: create-mount
+      tags: database
     - role: geerlingguy.postgresql
       tags: database
   handlers:
