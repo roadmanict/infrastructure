@@ -2,10 +2,6 @@
 - import_tasks: configure.yml
   become: yes
 
-- import_tasks: database.yml
-  become: yes
-  become_user: postgres
-
 - import_tasks: deploy.yml
   become: yes
   become_user: "{{ django_user }}"

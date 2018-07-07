@@ -17,3 +17,4 @@ django_systemd_services:
   - name: binance
     command: manage.py binance
 django_default_branch: master
+django_db_host: 192.168.2.31
