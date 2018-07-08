@@ -59,13 +59,27 @@
   become: "yes"
   vars_files:
     - "environments/{{ env }}/group_vars/database/vars.yml"
+    - "environments/{{ env }}/group_vars/database/vault.yml"
+    - "environments/{{ env }}/group_vars/backup/vars.yml"
   roles:
     - name: create-mount
       tags: database
     - role: geerlingguy.postgresql
       tags: database
+    - role: database-backup
+      tags: database-backup
+      become: "no"
   handlers:
     - import_tasks: roles/monit/handlers/main.yml
+
+- hosts: backup
+  gather_facts: no
+  vars_files:
+    - "environments/{{ env }}/group_vars/database/vars.yml"
+  roles:
+    - role: cron
+      tags: cron
+      become: "yes"
 
 - hosts: python3
   gather_facts: no

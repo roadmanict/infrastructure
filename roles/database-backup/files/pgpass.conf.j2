@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for database in postgresql_users %}
+localhost:5432:{{ database.name }}:{{ database.name }}:{{ database.password }}
+{% endfor %}

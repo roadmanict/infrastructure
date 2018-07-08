@@ -1,7 +1,4 @@
 ---
-- name: ensure apt cache is up to date
-  apt: update_cache=yes cache_valid_time=3600
-
 - name: ensure packages are installed
   apt: name={{item}} state=present
   with_items:
@@ -10,18 +7,29 @@
 - name: copy swift rc file
   template:
     src: files/swift_rc.sh
-    dest: /root
+    dest: "/home/{{ ansible_user_id }}"
 
 - name: add cronjob to backup to openstack
   cron:
     name: upload backup to the object store
     minute: 0
     hour: 3
-    job: "bash --rcfile /root/swift_rc.sh -ci \"swift upload --changed berry_backup {{ backup_dir }}\""
+    job: "bash --rcfile /home/{{ ansible_user_id }}/swift_rc.sh -ci \"swift upload --changed berry_backup {{ backup_dir }}\""
     state: present
+    cron_file: backup_to_openstack
+    user: "{{ ansible_user_id }}"
 
-- name: Add to monit
-  template:
-    src: files/monit.j2
-    dest: /etc/monit/conf.d/backup
-  notify: reload monit
+- name: add ssh backup key to user
+  become: "no"
+  copy:
+    src: "environments/{{ env }}/files/backup_key"
+    dest: "~/.ssh/backup_key"
+    mode: 0600
+
+- name: chown backup dir
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: 0755
+    recurse: "yes"

@@ -1,9 +1,10 @@
 ---
 backup_volume: d90ae9bd-a377-491e-a031-5705f91ec003
-backup_dir: /mnt/backup
+backup_dir: /var/backup
 swift_os_username: geert@roadmanict.nl
 swift_os_password: "{{ vault_swift_os_password }}"
 swift_os_auth_url: https://identity.stack.cloudvps.com/v2.0
 swift_os_tenant_id: 8f80a2d2558a4179acc6320c89b1296c
 swift_os_tenant_name: BRO000087 Roadman ICT
 swift_os_region_name: NL
+backup_ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaHHBvP2lHPRE0ZqZvwzU7aMtyqqBUs0g9xKFTrD8HwyYyn9C3fd3n6KqkLpKVxgto8tWInx9uoqhzutF3UAc21JaogZ9TEhXrN34iVgGHzsPqhmWqH6yKfTpIcSlBUMnwOZnfMRBilY3OkoB7xRsTuAizEecJltxoDp3vUHJLn0f3lMDLgf3NHQUwijtX1eYG5hWR1eU3FeCKPeG0gnV+cVK8RJrpIIjgober5KQnHZ8eNCDlOX8dhu2vg1+KPqgk4qSbtUrOP09gFDhQajCLVVw8c/rnQsGt/qfss3maY+FY7ugohhBt7693A0mL46tUU1lnhxgY0hnOFOTDt0PR geertweggemans@Geerts-MacBook-Pro-2.local

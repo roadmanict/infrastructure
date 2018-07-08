@@ -1,0 +1,19 @@
+---
+- name: copy pgpass.conf file
+  template:
+    src: files/pgpass.conf.j2
+    dest: ~/.pgpass
+    mode: 0600
+  become: "no"
+
+- name: Add backup key to authorized hosts
+  authorized_key:
+    user: pi
+    state: present
+    key: "{{ backup_ssh_public_key }}"
+
+- name: Create backup dir for databases
+  file:
+    path: "{{ backup_dir }}/database"
+    state: directory
+    mode: 0700
