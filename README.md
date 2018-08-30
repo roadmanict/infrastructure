@@ -24,3 +24,7 @@ dropdb TABLE
 createdb TABLE
 pg_restore -d TABLE BACKUP_FILE
 ```
+
+```
+ansible-playbook -i environments/berry/inventory berry.yml --tags update
+```
