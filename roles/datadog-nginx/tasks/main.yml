@@ -1,0 +1,12 @@
+---
+- name: Add Datadog status endpoint to nginx
+  copy:
+    src: status.conf
+    dest: "/etc/nginx/conf.d/status.conf"
+  notify: restart nginx
+
+- name: Add Nginx config to Datadog agent
+  copy:
+    src: conf.yaml
+    dest: "/root/.datadog-agent/agent/conf.d/nginx.yaml"
+  notify: Restart datadog agent

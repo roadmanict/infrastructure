@@ -47,6 +47,10 @@
     tags: load-balancer
   - name: ansible-nginx-hardening
     tags: load-balancer
+  - name: datadog-nginx
+    tags: load-balancer-datadog
+  handlers:
+  - import_tasks: roles/datadog/handlers/main.yml
 
 - hosts: monit
   gather_facts: no
@@ -67,6 +71,7 @@
   - { name: backup, tags: backup }
 
 - hosts: database
+  no_log: False
   gather_facts: no
   become: "yes"
   vars_files:
@@ -81,8 +86,11 @@
   - role: database-backup
     tags: database-backup
     become: "no"
+  - role: datadog-postgresql
+    tags: datadog-postgresql
   handlers:
   - import_tasks: roles/monit/handlers/main.yml
+  - import_tasks: roles/datadog/handlers/main.yml
 
 - hosts: backup
   gather_facts: no

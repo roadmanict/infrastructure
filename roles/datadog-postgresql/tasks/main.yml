@@ -1,0 +1,6 @@
+---
+- name: Add Postgresql config to Datadog agent
+  template:
+    src: conf.yaml
+    dest: "/root/.datadog-agent/agent/conf.d/postgres.yaml"
+  notify: Restart datadog agent
