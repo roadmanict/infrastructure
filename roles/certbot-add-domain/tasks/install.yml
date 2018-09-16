@@ -2,4 +2,4 @@
 - name: install certbot
   apt: name={{item}} state=present
   with_items:
-  - certbot
+    - certbot

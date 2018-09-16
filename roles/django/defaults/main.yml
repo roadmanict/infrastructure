@@ -8,7 +8,7 @@ django_secret_key: "{{ vault_django_secret_key }}"
 django_project_root: "/home/{{ project_name }}/django"
 django_venv_dir: "/home/{{ project_name }}/venv"
 django_domains:
- - "{{ project_domain }}"
+  - "{{ project_domain }}"
 django_static_dir: "/var/www/{{ project_name }}/static"
 django_static_url: "https://{{ project_domain }}/static/"
 django_media_dir: "/var/www/{{ project_name }}/media"

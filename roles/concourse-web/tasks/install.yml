@@ -1,15 +1,18 @@
 ---
 - name: ensure apt cache is up to date
   apt: update_cache=yes cache_valid_time=3600
+
 - name: ensure dependencies are installed
   apt: name={{item}} state=present
   with_items:
-  - docker.io
+    - docker.io
 
 - name: Creates concourse ssh-key web directory
   file: path=/usr/lib/concourse/keys/web state=directory
+
 - name: Copy tsa_host_key SSH key
   copy: src=tsa_host_key dest=/usr/lib/concourse/keys/web
+
 - name: Copy session_signing_key SSH key
   copy: src=session_signing_key dest=/usr/lib/concourse/keys/web
 
@@ -17,10 +20,11 @@
   template:
     src: files/concourse-web.service.j2
     dest: /etc/systemd/system/concourse-web.service
+
 - name: enable concourse-web
   systemd:
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true
     state: started
     name: concourse-web
 
@@ -28,5 +32,6 @@
   template:
     src: files/nginx.conf.j2
     dest: /etc/nginx/sites-enabled/concourse.conf
+
 - name: reload nginx
   service: name=nginx state=reloaded

@@ -2,7 +2,7 @@
 - name: ensure packages are installed
   apt: name={{item}} state=present
   with_items:
-  - python-swiftclient
+    - python-swiftclient
 
 - name: copy swift rc file
   template:
@@ -14,7 +14,9 @@
     name: upload backup to the object store
     minute: 0
     hour: 3
-    job: "bash --rcfile /home/{{ ansible_user_id }}/swift_rc.sh -ci \"swift upload --changed berry_backup {{ backup_dir }}\""
+    job: |
+      bash --rcfile /home/{{ ansible_user_id }}/swift_rc.sh -ci \
+      "swift upload --changed berry_backup {{ backup_dir }}"
     state: present
     cron_file: backup_to_openstack
     user: "{{ ansible_user_id }}"

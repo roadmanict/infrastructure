@@ -6,4 +6,4 @@
     group: www-data
     mode: 0755
     state: directory
-    recurse: yes
+    recurse: true

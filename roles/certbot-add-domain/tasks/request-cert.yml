@@ -20,7 +20,9 @@
   when: cert_dir.stat.isdir is undefined
 
 - name: create certbot certificates
-  shell: 'certbot certonly --webroot -w {{ certbot_root }}/{{ project_name }} --agree-tos --keep -d {{ item }} --email {{ email }}'
+  shell: |
+    certbot certonly --webroot -w {{ certbot_root }}/{{ project_name }} \
+      --agree-tos --keep -d {{ item }} --email {{ email }}
   with_items:
     "{{ domains }}"
   when: cert_dir.stat.isdir is undefined

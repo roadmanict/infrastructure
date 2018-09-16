@@ -1,12 +1,12 @@
 ---
-#- name: install python packages
-#  apt: name={{item}} state=present
-#  with_items:
-#  - libffi-dev
-#  - software-properties-common
-#  - libatlas3-base
-#  - libopenblas-dev
-#  - liblapack-dev
+# - name: install python packages
+#   apt: name={{item}} state=present
+#   with_items:
+#   - libffi-dev
+#   - software-properties-common
+#   - libatlas3-base
+#   - libopenblas-dev
+#   - liblapack-dev
 
 - name: create user
   user:
@@ -34,7 +34,7 @@
 
 - name: Reload service files
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Copy nginx config
   template:

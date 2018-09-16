@@ -1,6 +1,6 @@
 ---
 dependencies:
- - role: certbot-add-domain
-   name: "{{ project_name }}"
-   domains: "{{ django_domains }}"
-   email: geert@roadmanict.nl
+  - role: certbot-add-domain
+    name: "{{ project_name }}"
+    domains: "{{ django_domains }}"
+    email: geert@roadmanict.nl

@@ -1,14 +1,14 @@
 ---
-#- name: automount volume
-#  mount:
-#    boot: yes
-#    state: mounted
-#    fstype: ext4
-#    src: "UUID={{ backup_volume }}"
-#    name: "{{ backup_dir }}"
+# - name: automount volume
+#   mount:
+#     boot: yes
+#     state: mounted
+#     fstype: ext4
+#     src: "UUID={{ backup_volume }}"
+#     name: "{{ backup_dir }}"
 
-#- name: Add to monit
-#  template:
-#    src: files/monit.j2
-#    dest: /etc/monit/conf.d/backup
-#  notify: reload monit
+# - name: Add to monit
+#   template:
+#     src: files/monit.j2
+#     dest: /etc/monit/conf.d/backup
+#   notify: reload monit

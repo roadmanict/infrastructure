@@ -13,10 +13,10 @@
     repo: "{{ project_repository }}"
     dest: "{{ django_project_root }}"
     key_file: ~/.ssh/deploy_key
-    accept_hostkey: yes
+    accept_hostkey: true
     version: "{{ django_default_branch }}"
-    update: yes
-    force: "yes"
+    update: true
+    force: true
   notify:
     - Restart django project
     - Restart django custom systemd files
@@ -41,7 +41,7 @@
   copy:
     content: ""
     dest: "{{ django_project_root }}/{{ item }}.log"
-    force: no
+    force: false
   with_items:
     - error
     - access

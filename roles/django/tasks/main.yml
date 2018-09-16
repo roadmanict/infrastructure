@@ -1,16 +1,16 @@
 ---
 - import_tasks: configure.yml
-  become: yes
+  become: true
 
 - import_tasks: deploy.yml
-  become: yes
+  become: true
   become_user: "{{ django_user }}"
   environment:
     DJANGO_SETTINGS_MODULE: "{{ django_name }}.settings.production"
   tags:
-   - deploy
+    - deploy
 
 - import_tasks: enable.yml
-  become: yes
+  become: true
   tags:
-   - deploy
+    - deploy
