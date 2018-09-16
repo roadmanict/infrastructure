@@ -4,37 +4,32 @@ mount_location: /var/lib/postgresql
 
 datadog_postgresql_password: "{{ vault_datadog_postgresql_password }}"
 
-postgresql_hba_entries:
-- { type: local, database: all, user: postgres, auth_method: peer }
-- { type: local, database: all, user: all, auth_method: peer }
-- { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
-- { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
-- { type: host, database: all, user: all, address: '192.168.2.0/24', auth_method: md5 }
-
 postgresql_global_config_options:
-- option: listen_addresses
-  value: '*'
+  - option: listen_addresses
+    value: '*'
 
 postgresql_databases:
-- name: stocks
-  owner: stocks
-  lc_collate: en_GB.UTF-8
-  lc_ctype: en_GB.UTF-8
+  - name: stocks
+    owner: stocks
+    lc_collate: en_GB.UTF-8
+    lc_ctype: en_GB.UTF-8
 
 postgresql_users:
-- name: stocks
-  password: "{{ vault_postgresql_database_password_stocks }}"
-- name: datadog
-  password: "{{ datadog_postgresql_password }}"
-  db: postgres
-  priv: pg_stat_database:SELECT
+  - name: stocks
+    password: "{{ vault_postgresql_database_password_stocks }}"
+  - name: datadog
+    password: "{{ datadog_postgresql_password }}"
+    db: postgres
+    priv: pg_stat_database:SELECT
 
 cron_jobs:
-- name: Stocks Database backup
-  user: "{{ ansible_user_id }}"
-  weekday: "*"
-  minute: 0
-  hour: 2,14
-  job: "ssh -i ~/.ssh/backup_key pi@192.168.2.31 \"pg_dump -U stocks -Fc stocks -h localhost\" >> {{ backup_dir }}/database/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_stocks_database_backup.tar"
-  file: stocks_database_backup
-  state: present
+  - name: Stocks Database backup
+    user: "{{ ansible_user_id }}"
+    weekday: "*"
+    minute: 0
+    hour: 2,14
+    job: >
+      ssh -i ~/.ssh/backup_key pi@192.168.2.31 \"pg_dump -U stocks -Fc stocks -h localhost\" >>
+        {{ backup_dir }}/database/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_stocks_database_backup.tar"
+    file: stocks_database_backup
+    state: present

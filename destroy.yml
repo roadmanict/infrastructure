@@ -12,24 +12,24 @@
         state: absent
         floating_ip_address: "{{ floating_ip }}"
         server: "{{ infra_env }}_server"
-        wait: yes
+        wait: true
     - name: Destroy instance
       os_server:
         state: absent
         name: "{{ infra_env }}_server"
-        wait: yes
+        wait: true
     - name: Destroy router
       os_router:
         state: absent
         name: "{{ infra_env }}_router"
-        wait: yes
+        wait: true
 #    - name: Destroy subnet
 #      os_subnet:
 #        state: absent
 #        name: "{{ infra_env }}_subnet"
-#        wait: yes
+#        wait: true
 #    - name: Destroy network
 #      os_network:
 #        state: absent
 #        name: "{{ infra_env }}_network"
-#        wait: yes
+#        wait: true

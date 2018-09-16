@@ -5,14 +5,16 @@ django_name: "stocks"
 project_repository: git@bitbucket.org:roadman/stocks.git
 project_gunicorn_port: 8200
 django_cron_jobs:
-- name: Stocks Database backup
-  user: postgres
-  weekday: "*"
-  minute: 12
-  hour: "*"
-  job: "pg_dump -Fc {{ django_db_name }} > /tmp/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_{{ project_name }}_database_backup_.tar"
-  file: stocks_database_backup
-  state: present
+  - name: Stocks Database backup
+    user: postgres
+    weekday: "*"
+    minute: 12
+    hour: "*"
+    job: >
+      pg_dump -Fc {{ django_db_name }} >
+        /tmp/$(date -u +\\%Y\\%m\\%dT\\%H\\%M\\%S)_{{ project_name }}_database_backup_.tar
+    file: stocks_database_backup
+    state: present
 django_systemd_services:
   - name: binance
     command: manage.py binance

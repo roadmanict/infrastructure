@@ -1,120 +1,126 @@
 ---
 - hosts: all
   tasks:
-  - name: ensure apt cache is up to date
-    apt:
-      update_cache: "yes"
-      cache_valid_time: 3600
-      force_apt_get: "yes"
-    become: "yes"
+    - name: ensure apt cache is up to date
+      apt:
+        update_cache: "true"
+        cache_valid_time: 3600
+        force_apt_get: "true"
+      become: "true"
   tags:
-  - update
+    - update
 
 - hosts: all
-  gather_facts: no
+  gather_facts: false
   become: true
   roles:
-  - role: ansible-common
-    tags:
-    - common
-    - upgrade
-  - role: dev-sec.os-hardening
-    tags: hardening
-  - role: dev-sec.ssh-hardening
-    tags: hardening
-  - role: datadog
-    become: yes
-    tags:
-    - datadog
+    - role: ansible-common
+      tags:
+        - common
+        - upgrade
+    - role: dev-sec.os-hardening
+      tags: hardening
+    - role: dev-sec.ssh-hardening
+      tags: hardening
+    - role: datadog
+      become: true
+      tags:
+        - datadog
   vars_files:
-  - "environments/{{ env }}/group_vars/common/vars.yml"
-  - "environments/{{ env }}/group_vars/common/vault.yml"
+    - "environments/{{ env }}/group_vars/common/vars.yml"
+    - "environments/{{ env }}/group_vars/common/vault.yml"
 
 - hosts: smtp
-  gather_facts: no
+  gather_facts: false
   become: true
   roles:
-  - { name: smtp, tags: smtp }
+    - name: smtp
+      tags: smtp
   vars_files:
-  - "environments/{{ env }}/group_vars/smtp/vars.yml"
-  - "environments/{{ env }}/group_vars/smtp/vault.yml"
+    - "environments/{{ env }}/group_vars/smtp/vars.yml"
+    - "environments/{{ env }}/group_vars/smtp/vault.yml"
 
 - hosts: load-balancer
-  gather_facts: no
+  gather_facts: false
   become: true
   roles:
-  - name: load-balancer
-    tags: load-balancer
-  - name: ansible-nginx-hardening
-    tags: load-balancer
-  - name: datadog-nginx
-    tags: load-balancer-datadog
+    - name: load-balancer
+      tags: load-balancer
+    - name: ansible-nginx-hardening
+      tags: load-balancer
+    - name: datadog-nginx
+      tags: load-balancer-datadog
   handlers:
-  - import_tasks: roles/datadog/handlers/main.yml
+    - import_tasks: roles/datadog/handlers/main.yml
 
 - hosts: monit
-  gather_facts: no
+  gather_facts: false
   become: true
   vars_files:
-  - "environments/{{ env }}/group_vars/monit/vars.yml"
+    - "environments/{{ env }}/group_vars/monit/vars.yml"
   handlers:
-  - import_tasks: roles/load-balancer/handlers/main.yml
+    - import_tasks: roles/load-balancer/handlers/main.yml
   roles:
-  - { name: monit, tags: monit }
+    - name: monit
+      tags: monit
 
 - hosts: backup
-  gather_facts: no
-  become: yes
+  gather_facts: false
+  become: true
   handlers:
-  - import_tasks: roles/monit/handlers/main.yml
+    - import_tasks: roles/monit/handlers/main.yml
   roles:
-  - { name: backup, tags: backup }
+    - name: backup
+      tags: backup
 
 - hosts: database
-  no_log: False
-  gather_facts: no
-  become: "yes"
+  false_log: false
+  gather_facts: false
+  become: "true"
   vars_files:
-  - "environments/{{ env }}/group_vars/database/vars.yml"
-  - "environments/{{ env }}/group_vars/database/vault.yml"
-  - "environments/{{ env }}/group_vars/backup/vars.yml"
+    - "environments/{{ env }}/group_vars/database/vars.yml"
+    - "environments/{{ env }}/group_vars/database/vault.yml"
+    - "environments/{{ env }}/group_vars/backup/vars.yml"
   roles:
-  - name: create-mount
-    tags: database
-  - role: geerlingguy.postgresql
-    tags: database
-  - role: database-backup
-    tags: database-backup
-    become: "no"
-  - role: datadog-postgresql
-    tags: datadog-postgresql
+    - name: create-mount
+      tags: database
+    - role: geerlingguy.postgresql
+      tags: database
+    - role: database-backup
+      tags: database-backup
+      become: "false"
+    - role: datadog-postgresql
+      tags: datadog-postgresql
   handlers:
-  - import_tasks: roles/monit/handlers/main.yml
-  - import_tasks: roles/datadog/handlers/main.yml
+    - import_tasks: roles/monit/handlers/main.yml
+    - import_tasks: roles/datadog/handlers/main.yml
 
 - hosts: backup
-  gather_facts: no
+  gather_facts: false
   vars_files:
-  - "environments/{{ env }}/group_vars/database/vars.yml"
+    - "environments/{{ env }}/group_vars/database/vars.yml"
   roles:
-  - role: cron
-    tags: cron
-    become: "yes"
+    - role: cron
+      tags: cron
+      become: "true"
 
 - hosts: python3
-  gather_facts: no
+  gather_facts: false
   roles:
-  - { name: smehan.compile-python3, tags: python3, become: yes }
+    - name: smehan.compile-python3
+      tags: python3
+      become: true
   vars:
-  - compiled_python_version: 3.7.0
+    - compiled_python_version: 3.7.0
 
 - hosts: stocks
-  gather_facts: no
+  gather_facts: false
   vars_files:
-  - "environments/{{ env }}/group_vars/stocks/vars.yml"
-  - "environments/{{ env }}/group_vars/stocks/vault.yml"
+    - "environments/{{ env }}/group_vars/stocks/vars.yml"
+    - "environments/{{ env }}/group_vars/stocks/vault.yml"
   roles:
-  - { name: django, tags: stocks }
+    - name: django
+      tags: stocks
   handlers:
-  - import_tasks: roles/load-balancer/handlers/main.yml
-  - import_tasks: roles/monit/handlers/main.yml
+    - import_tasks: roles/load-balancer/handlers/main.yml
+    - import_tasks: roles/monit/handlers/main.yml

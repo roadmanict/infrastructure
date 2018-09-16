@@ -1,12 +1,12 @@
 ---
-#- name: Ensure device is formatted ext4
-#  filesystem:
-#    fstype: ext4
-#    dev: "{{ mount_device_uuid }}"
+# - name: Ensure device is formatted ext4
+#   filesystem:
+#     fstype: ext4
+#     dev: "{{ mount_device_uuid }}"
 
 - name: automount volume
   mount:
-    boot: yes
+    boot: true
     state: mounted
     fstype: ext4
     src: "{{ mount_device_uuid }}"

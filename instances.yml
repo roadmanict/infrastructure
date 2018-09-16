@@ -2,20 +2,23 @@
 - hosts: all
   become: true
   roles:
-    - { name: common, tags: common }
+    - name: common
+      tags: common
   vars_files:
     - "environments/{{ env }}/group_vars/common/vars.yml"
 - hosts: smtp
   become: true
   roles:
-    - { name: smtp, tags: smtp }
+    - name: smtp
+      tags: smtp
   vars_files:
     - "environments/{{ env }}/group_vars/smtp/vars.yml"
     - "environments/{{ env }}/group_vars/smtp/vault.yml"
 - hosts: load-balancer
   become: true
   roles:
-    - { name: load-balancer, tags: load-balancer }
+    - name: load-balancer
+      tags: load-balancer
 - hosts: monit
   become: true
   vars_files:
@@ -23,30 +26,33 @@
   handlers:
     - import_tasks: roles/load-balancer/handlers/main.yml
   roles:
-    - { name: monit, tags: monit }
+    - name: monit
+      tags: monit
 - hosts: database
   become: true
   roles:
-    - { name: database, tags: database }
+    - name: database
+      tags: database
   handlers:
     - import_tasks: roles/monit/handlers/main.yml
-#- hosts: vogelsangh-beta
-#  vars_files:
-#    - "environments/{{ env }}/group_vars/vogelsangh-beta/vars.yml"
-#    - "environments/{{ env }}/group_vars/vogelsangh-beta/vault.yml"
-#  roles:
-#    - { name: django, tags: vogelsangh-beta }
-#- hosts: loo
-#  vars_files:
-#    - "environments/{{ env }}/group_vars/loo/vars.yml"
-#    - "environments/{{ env }}/group_vars/loo/vault.yml"
-#  roles:
-#    - { name: django, tags: loo }
+# - hosts: vogelsangh-beta
+#   vars_files:
+#     - "environments/{{ env }}/group_vars/vogelsangh-beta/vars.yml"
+#     - "environments/{{ env }}/group_vars/vogelsangh-beta/vault.yml"
+#   roles:
+#     - { name: django, tags: vogelsangh-beta }
+# - hosts: loo
+#   vars_files:
+#     - "environments/{{ env }}/group_vars/loo/vars.yml"
+#     - "environments/{{ env }}/group_vars/loo/vault.yml"
+#   roles:
+#     - { name: django, tags: loo }
 - hosts: stocks
   vars_files:
     - "environments/{{ env }}/group_vars/stocks/vars.yml"
-#    - "environments/{{ env }}/group_vars/stocks/vault.yml"
+  #    - "environments/{{ env }}/group_vars/stocks/vault.yml"
   roles:
-    - { name: django, tags: stocks }
+    - name: django
+      tags: stocks
   handlers:
     - import_tasks: roles/monit/handlers/main.yml

@@ -1,5 +1,5 @@
 .PHONY: lint
 
 lint:
-	yamllint .
-	ansible-lint berry.yml
+	yamllint -c ./.yamllint.yml .
+	ansible-lint site.yml
