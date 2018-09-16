@@ -1,4 +1,0 @@
----
-postgresql_version: 9.6
-database_drive_device: /dev/vdb
-django_db_host: 127.0.0.1
